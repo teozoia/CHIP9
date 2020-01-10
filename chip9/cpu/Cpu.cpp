@@ -78,10 +78,7 @@ public:
         
         memory = Memory();
         
-        std::fill_n(ISTRGATE, 0x100, &d_dummy);
-        ISTRGATE[0x22] = d_ldxsp;       // 22 LDX SP, yy xx
-        ISTRGATE[0x76] = d_xora;        // 76 XOR A
-        ISTRGATE[0x0F] = d_jmp;         // 0F JMP yy xx
+        init_d(ISTRGATE);
         
         std::fill_n(EXECGATE, 0x100, &hcf);
         EXECGATE[0x22] = ldxsp;         // LDX SP

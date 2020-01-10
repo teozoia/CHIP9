@@ -754,6 +754,7 @@ static void d_clrflag(Instruction *i, Reg<uint8_t> *regs, DoubleReg<uint8_t> *dr
 // 18-28-38-48-58-68-78-88 SETFLAG Z, x
 static void d_setflag(Instruction *i, Reg<uint8_t> *regs, DoubleReg<uint8_t> *dregs){
     strcpy(i->name, "SETFLAG");
+    // Different exec(), but immediate8_0 = 0/1
 }
 
 // ----[ ADD R ]--------------------------------------------------------------------
@@ -1031,7 +1032,188 @@ static void d_deca(Instruction *i, Reg<uint8_t> *regs, DoubleReg<uint8_t> *dregs
     i->set_r1(&regs[1]); // A
 }
 
-/* TODO */
+// ----[ AND R ]------------------------------------------------------------------
+
+// 05 AND B
+static void d_andb(Instruction *i, Reg<uint8_t> *regs, DoubleReg<uint8_t> *dregs){
+    strcpy(i->name, "AND");
+    i->set_r1(&regs[1]); // A
+    i->set_r2(&regs[2]); // B
+}
+
+// 15 AND C
+static void d_andc(Instruction *i, Reg<uint8_t> *regs, DoubleReg<uint8_t> *dregs){
+    strcpy(i->name, "AND");
+    i->set_r1(&regs[1]); // A
+    i->set_r2(&regs[3]); // C
+}
+
+// 25 AND D
+static void d_andd(Instruction *i, Reg<uint8_t> *regs, DoubleReg<uint8_t> *dregs){
+    strcpy(i->name, "AND");
+    i->set_r1(&regs[1]); // A
+    i->set_r2(&regs[4]); // D
+}
+
+// 35 AND E
+static void d_ande(Instruction *i, Reg<uint8_t> *regs, DoubleReg<uint8_t> *dregs){
+    strcpy(i->name, "AND");
+    i->set_r1(&regs[1]); // A
+    i->set_r2(&regs[5]); // E
+}
+
+// 45 AND H
+static void d_andh(Instruction *i, Reg<uint8_t> *regs, DoubleReg<uint8_t> *dregs){
+    strcpy(i->name, "AND");
+    i->set_r1(&regs[1]); // A
+    i->set_r2(&regs[6]); // H
+}
+
+// 55 AND L
+static void d_andl(Instruction *i, Reg<uint8_t> *regs, DoubleReg<uint8_t> *dregs){
+    strcpy(i->name, "AND");
+    i->set_r1(&regs[1]); // A
+    i->set_r2(&regs[7]); // L
+}
+
+// 65 AND HL
+static void d_andHL(Instruction *i, Reg<uint8_t> *regs, DoubleReg<uint8_t> *dregs){
+    strcpy(i->name, "AND");
+    i->set_r1(&regs[1]); // A
+    i->set_rr1(&dregs[2]); // HL
+}
+
+// 75 AND A
+static void d_anda(Instruction *i, Reg<uint8_t> *regs, DoubleReg<uint8_t> *dregs){
+    strcpy(i->name, "AND");
+    i->set_r1(&regs[1]); // A
+    i->set_r2(&regs[1]); // A
+}
+
+// ----[ ANDI xx ]----------------------------------------------------------------
+
+// C7 ANDI xx
+static void d_andi(Instruction *i, Reg<uint8_t> *regs, DoubleReg<uint8_t> *dregs){
+    strcpy(i->name, "ANDI");
+    i->set_r1(&regs[1]); // A
+}
+
+// ----[ OR R ]-------------------------------------------------------------------
+
+// 85 OR B
+static void d_orb(Instruction *i, Reg<uint8_t> *regs, DoubleReg<uint8_t> *dregs){
+    strcpy(i->name, "OR");
+    i->set_r1(&regs[1]); // A
+    i->set_r2(&regs[2]); // B
+}
+
+// 95 OR C
+static void d_orc(Instruction *i, Reg<uint8_t> *regs, DoubleReg<uint8_t> *dregs){
+    strcpy(i->name, "OR");
+    i->set_r1(&regs[1]); // A
+    i->set_r2(&regs[3]); // C
+}
+
+// A5 OR D
+static void d_ord(Instruction *i, Reg<uint8_t> *regs, DoubleReg<uint8_t> *dregs){
+    strcpy(i->name, "OR");
+    i->set_r1(&regs[1]); // A
+    i->set_r2(&regs[4]); // D
+}
+
+// B5 OR E
+static void d_ore(Instruction *i, Reg<uint8_t> *regs, DoubleReg<uint8_t> *dregs){
+    strcpy(i->name, "OR");
+    i->set_r1(&regs[1]); // A
+    i->set_r2(&regs[5]); // E
+}
+
+// C5 OR H
+static void d_orh(Instruction *i, Reg<uint8_t> *regs, DoubleReg<uint8_t> *dregs){
+    strcpy(i->name, "OR");
+    i->set_r1(&regs[1]); // A
+    i->set_r2(&regs[6]); // H
+}
+
+// D5 OR L
+static void d_orl(Instruction *i, Reg<uint8_t> *regs, DoubleReg<uint8_t> *dregs){
+    strcpy(i->name, "OR");
+    i->set_r1(&regs[1]); // A
+    i->set_r2(&regs[7]); // L
+}
+
+// E5 OR HL
+static void d_orHL(Instruction *i, Reg<uint8_t> *regs, DoubleReg<uint8_t> *dregs){
+    strcpy(i->name, "OR");
+    i->set_r1(&regs[1]); // A
+    i->set_rr1(&dregs[2]); // HL
+}
+
+// F5 OR A
+static void d_ora(Instruction *i, Reg<uint8_t> *regs, DoubleReg<uint8_t> *dregs){
+    strcpy(i->name, "OR");
+    i->set_r1(&regs[1]); // A
+    i->set_r2(&regs[1]); // A
+}
+
+// ----[ ORI xx ]----------------------------------------------------------------
+
+// D7 ORI xx
+static void d_ori(Instruction *i, Reg<uint8_t> *regs, DoubleReg<uint8_t> *dregs){
+    strcpy(i->name, "ORI");
+    i->set_r1(&regs[1]); // A
+}
+
+// ----[ XOR R ]-------------------------------------------------------------------
+
+// 06 XOR B
+static void d_xorb(Instruction *i, Reg<uint8_t> *regs, DoubleReg<uint8_t> *dregs){
+    strcpy(i->name, "XOR");
+    i->set_r1(&regs[1]); // A
+    i->set_r2(&regs[2]); // B
+}
+
+// 16 XOR C
+static void d_xorc(Instruction *i, Reg<uint8_t> *regs, DoubleReg<uint8_t> *dregs){
+    strcpy(i->name, "XOR");
+    i->set_r1(&regs[1]); // A
+    i->set_r2(&regs[3]); // C
+}
+
+// 26 XOR D
+static void d_xord(Instruction *i, Reg<uint8_t> *regs, DoubleReg<uint8_t> *dregs){
+    strcpy(i->name, "XOR");
+    i->set_r1(&regs[1]); // A
+    i->set_r2(&regs[4]); // D
+}
+
+// 36 XOR E
+static void d_xore(Instruction *i, Reg<uint8_t> *regs, DoubleReg<uint8_t> *dregs){
+    strcpy(i->name, "XOR");
+    i->set_r1(&regs[1]); // A
+    i->set_r2(&regs[5]); // E
+}
+
+// 46 XOR H
+static void d_xorh(Instruction *i, Reg<uint8_t> *regs, DoubleReg<uint8_t> *dregs){
+    strcpy(i->name, "XOR");
+    i->set_r1(&regs[1]); // A
+    i->set_r2(&regs[6]); // H
+}
+
+// 56 XOR L
+static void d_xorl(Instruction *i, Reg<uint8_t> *regs, DoubleReg<uint8_t> *dregs){
+    strcpy(i->name, "XOR");
+    i->set_r1(&regs[1]); // A
+    i->set_r2(&regs[7]); // L
+}
+
+// 66 XOR HL
+static void d_xorHL(Instruction *i, Reg<uint8_t> *regs, DoubleReg<uint8_t> *dregs){
+    strcpy(i->name, "XOR");
+    i->set_r1(&regs[1]); // A
+    i->set_rr1(&dregs[2]); // HL
+}
 
 // 76 XOR A
 static void d_xora(Instruction *i, Reg<uint8_t> *regs, DoubleReg<uint8_t> *dregs){
@@ -1040,8 +1222,227 @@ static void d_xora(Instruction *i, Reg<uint8_t> *regs, DoubleReg<uint8_t> *dregs
     i->set_r2(&regs[1]); // A
 }
 
+// ----[ XORI xx ]----------------------------------------------------------------
+
+// E7 XORI xx
+static void d_xori(Instruction *i, Reg<uint8_t> *regs, DoubleReg<uint8_t> *dregs){
+    strcpy(i->name, "XORI");
+    i->set_r1(&regs[1]); // A
+}
+
+// ----[ CMP R ]-------------------------------------------------------------------
+
+// 86 CMP B
+static void d_cmpb(Instruction *i, Reg<uint8_t> *regs, DoubleReg<uint8_t> *dregs){
+    strcpy(i->name, "CMP");
+    i->set_r1(&regs[1]); // A
+    i->set_r2(&regs[2]); // B
+}
+
+// 96 CMP C
+static void d_cmpc(Instruction *i, Reg<uint8_t> *regs, DoubleReg<uint8_t> *dregs){
+    strcpy(i->name, "CMP");
+    i->set_r1(&regs[1]); // A
+    i->set_r2(&regs[3]); // C
+}
+
+// A6 CMP D
+static void d_cmpd(Instruction *i, Reg<uint8_t> *regs, DoubleReg<uint8_t> *dregs){
+    strcpy(i->name, "CMP");
+    i->set_r1(&regs[1]); // A
+    i->set_r2(&regs[4]); // D
+}
+
+// B6 CMP E
+static void d_cmpe(Instruction *i, Reg<uint8_t> *regs, DoubleReg<uint8_t> *dregs){
+    strcpy(i->name, "CMP");
+    i->set_r1(&regs[1]); // A
+    i->set_r2(&regs[5]); // E
+}
+
+// C6 CMP H
+static void d_cmph(Instruction *i, Reg<uint8_t> *regs, DoubleReg<uint8_t> *dregs){
+    strcpy(i->name, "CMP");
+    i->set_r1(&regs[1]); // A
+    i->set_r2(&regs[6]); // H
+}
+
+// D6 CMP L
+static void d_cmpl(Instruction *i, Reg<uint8_t> *regs, DoubleReg<uint8_t> *dregs){
+    strcpy(i->name, "CMP");
+    i->set_r1(&regs[1]); // A
+    i->set_r2(&regs[7]); // L
+}
+
+// E6 CMP HL
+static void d_cmpHL(Instruction *i, Reg<uint8_t> *regs, DoubleReg<uint8_t> *dregs){
+    strcpy(i->name, "CMP");
+    i->set_r1(&regs[1]); // A
+    i->set_rr1(&dregs[2]); // HL
+}
+
+// F6 CMP A
+static void d_cmpa(Instruction *i, Reg<uint8_t> *regs, DoubleReg<uint8_t> *dregs){
+    strcpy(i->name, "CMP");
+    i->set_r1(&regs[1]); // A
+    i->set_r2(&regs[1]); // A
+}
+
+// ----[ CMPI xx ]----------------------------------------------------------------
+
+// F7 CMPI xx
+static void d_cmpi(Instruction *i, Reg<uint8_t> *regs, DoubleReg<uint8_t> *dregs){
+    strcpy(i->name, "CMPI");
+    i->set_r1(&regs[1]); // A
+}
+
+// ----[ CMPS R ]-----------------------------------------------------------------
+
+// 0D CMPS B
+static void d_cmpsb(Instruction *i, Reg<uint8_t> *regs, DoubleReg<uint8_t> *dregs){
+    strcpy(i->name, "CMPS");
+    i->set_r1(&regs[1]); // A
+    i->set_r2(&regs[2]); // B
+}
+
+// 1D CMPS C
+static void d_cmpsc(Instruction *i, Reg<uint8_t> *regs, DoubleReg<uint8_t> *dregs){
+    strcpy(i->name, "CMPS");
+    i->set_r1(&regs[1]); // A
+    i->set_r2(&regs[3]); // C
+}
+
+// 2D CMPS D
+static void d_cmpsd(Instruction *i, Reg<uint8_t> *regs, DoubleReg<uint8_t> *dregs){
+    strcpy(i->name, "CMPS");
+    i->set_r1(&regs[1]); // A
+    i->set_r2(&regs[4]); // D
+}
+
+// 3D CMPS E
+static void d_cmpse(Instruction *i, Reg<uint8_t> *regs, DoubleReg<uint8_t> *dregs){
+    strcpy(i->name, "CMPS");
+    i->set_r1(&regs[1]); // A
+    i->set_r2(&regs[5]); // E
+}
+
+// 4D CMPS H
+static void d_cmpsh(Instruction *i, Reg<uint8_t> *regs, DoubleReg<uint8_t> *dregs){
+    strcpy(i->name, "CMPS");
+    i->set_r1(&regs[1]); // A
+    i->set_r2(&regs[6]); // H
+}
+
+// 5D CMP L
+static void d_cmpsl(Instruction *i, Reg<uint8_t> *regs, DoubleReg<uint8_t> *dregs){
+    strcpy(i->name, "CMPS");
+    i->set_r1(&regs[1]); // A
+    i->set_r2(&regs[7]); // L
+}
+
+// 6D CMPS HL
+static void d_cmpsHL(Instruction *i, Reg<uint8_t> *regs, DoubleReg<uint8_t> *dregs){
+    strcpy(i->name, "CMPS");
+    i->set_r1(&regs[1]); // A
+    i->set_rr1(&dregs[2]); // HL
+}
+
+// 7D CMPS A
+static void d_cmpsa(Instruction *i, Reg<uint8_t> *regs, DoubleReg<uint8_t> *dregs){
+    strcpy(i->name, "CMPS");
+    i->set_r1(&regs[1]); // A
+    i->set_r2(&regs[1]); // A
+}
+
+// ----[ I/O ]-------------------------------------------------------------------
+
+// E0 SIN
+static void d_sin(Instruction *i, Reg<uint8_t> *regs, DoubleReg<uint8_t> *dregs){
+    strcpy(i->name, "SIN");
+    i->set_r1(&regs[1]); // A
+}
+
+// E1 SOUT
+static void d_sout(Instruction *i, Reg<uint8_t> *regs, DoubleReg<uint8_t> *dregs){
+    strcpy(i->name, "SOUT");
+    i->set_r1(&regs[1]); // A
+}
+
+// F0 CLRSCR
+static void d_clrscr(Instruction *i, Reg<uint8_t> *regs, DoubleReg<uint8_t> *dregs){
+    strcpy(i->name, "CLRSCR");
+}
+
+// F1 DRAW
+static void d_draw(Instruction *i, Reg<uint8_t> *regs, DoubleReg<uint8_t> *dregs){
+    strcpy(i->name, "DRAW");
+    i->set_r1(&regs[1]); // A
+    // B -> X
+    // C -> y
+}
+
+/*
+ * NOTES: I use only JMP and JMPCC for map near-jump instruction.
+ * NJMP 54 --> remapped to JMP 00 54
+ */
+
+// ----[ JMP xxyy ]---------------------------------------------------------------
+
 // 0F JMP yy xx
 static void d_jmp(Instruction *i, Reg<uint8_t> *regs, DoubleReg<uint8_t> *dregs){
     strcpy(i->name, "JMP");
     i->set_rr1(&dregs[4]); // PC
+}
+
+// ----[ JMPCC xxyy ]------------------------------------------------------------
+
+// 1F-2F-3F-4F-5F-6F-7F-8F JMPCC
+static void d_jmpcc(Instruction *i, Reg<uint8_t> *regs, DoubleReg<uint8_t> *dregs){
+    strcpy(i->name, "JMPCC");
+    i->set_rr1(&dregs[4]); // PC
+    // Different exec()
+}
+
+// ----[ NJMP xx ]---------------------------------------------------------------
+
+// 9F NJMP xx
+static void d_njmp(Instruction *i, Reg<uint8_t> *regs, DoubleReg<uint8_t> *dregs){
+    strcpy(i->name, "NJMP");
+    i->set_rr1(&dregs[4]); // PC
+    i->set_imm8_1(0);
+}
+
+// ----[ NJMPCC xx ]------------------------------------------------------------
+
+// AF-BF-CF-DF-EF-FF-EE-FE NJMPCC
+static void d_njmpcc(Instruction *i, Reg<uint8_t> *regs, DoubleReg<uint8_t> *dregs){
+    strcpy(i->name, "NJMPCC");
+    i->set_rr1(&dregs[4]); // PC
+    i->set_imm8_1(0);
+    // Different exec()
+}
+
+// ----[ CALL xxyy ]-------------------------------------------------------------
+
+// 1E CALL yy xx
+static void d_call(Instruction *i, Reg<uint8_t> *regs, DoubleReg<uint8_t> *dregs){
+    strcpy(i->name, "CALL");
+    i->set_rr1(&dregs[4]); // PC
+    i->set_rr2(&dregs[3]); // SP
+}
+
+// ----[ RET ]-------------------------------------------------------------------
+
+// 0E RET
+static void d_ret(Instruction *i, Reg<uint8_t> *regs, DoubleReg<uint8_t> *dregs){
+    strcpy(i->name, "RET");
+    i->set_rr1(&dregs[4]); // PC
+    i->set_rr2(&dregs[3]); // SP
+}
+
+// ----[ NOP ]-------------------------------------------------------------------
+
+// 00 NOP
+static void d_nop(Instruction *i, Reg<uint8_t> *regs, DoubleReg<uint8_t> *dregs){
+    strcpy(i->name, "NOP");
 }

@@ -177,7 +177,7 @@ static void addi(Instruction *i){
 }
 
 static void addx(Instruction *i){
-    uint16_t res =getD(i->get_rr1()) + i->get_r1()->getValue();
+    uint16_t res = getD(i->get_rr1()) + i->get_r1()->getValue();
     setD(i->get_rr1(), res);
     
     setflag_math(i, res);
@@ -406,7 +406,7 @@ static void jmpz(Instruction *i){
 static void jmpnz(Instruction *i){
     
     uint8_t mask = 0x80; // 1000 0000
-    if((i->get_flag()->getValue() & mask) == 0)
+    if((i->get_flag()->getValue() & mask) == 0x00)
         i->get_rr1()->set(i->get_imm8_1(), i->get_imm8_0());
 }
 
@@ -462,10 +462,7 @@ static void call(Instruction *i){
 }
 
 static void ret(Instruction *i){
-
-    uint16_t sp_v = getD(i->get_rr2());
-    setD(i->get_rr1(), i->get_mem()->readw(sp_v));
-    setD(i->get_rr2(), sp_v + 2);
+    poprr(i);
 }
 
 static void nop(Instruction *i){}

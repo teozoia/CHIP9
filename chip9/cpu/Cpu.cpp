@@ -16,7 +16,7 @@
 static const int N_REGS = 12;
 static const int N_DREGS = 5;
 
-static const uint8_t GPR_DEFAULT = 0xAA;
+static const uint8_t GPR_DEFAULT = 0xEE;
 static const uint8_t FLAG_DEFAULT = 0x00;
 static const uint8_t I_DEFAULT = 0x00; // I (P)
 static const uint8_t X_DEFAULT = 0x00; // X (C)
@@ -119,6 +119,8 @@ public:
         uint8_t opcode = 0x00;
         uint8_t param = 0x00;
         
+        printf("IX: 0x%04x\n", getD(pc));
+        
         this->istr.clear();
         opcode = this->memory.readb(getD(pc));
         this->istr.set_opcode(opcode);
@@ -146,14 +148,12 @@ public:
                 this->istr.set_imm8_1(param);
                 break;
         }
-        //this->istr.print();
     }
     
     void decode(){
         /* Wrapper to specifical decode function based on opcode */
         ISTRGATE[istr.get_opcode()](&istr, gpregs, dregs);
         this->istr.print();
-        //printf("IX(PC): 0x%04x\n",getD(pc));
     }
     
     void execute(){

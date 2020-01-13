@@ -20,11 +20,13 @@ int main(int argc, const char * argv[]) {
     chip9.loadrom(rompath, 779, 0x0);
     chip9.show_memory(0,300);
     
-    for(int i = 0; i < 10000; i++){
+    for(int i = 0; i < 228; i++){
         chip9.fetch();
         chip9.decode();
         chip9.execute();
-        //chip9.status();
+        chip9.status();
+        
+        chip9.show_memory(0xffe0,0x001f);
     }
     
     return 0;

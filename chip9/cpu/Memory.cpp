@@ -38,7 +38,7 @@ public:
     }
     
     void show(int offset, int size){
-        for(int i = offset + (offset % 2); i < size; i = i + 2)
+        for(int i = offset + (offset % 2); i < offset + size; i = i + 2)
             printf("0x%04x: %02x %02x\n", i, readb(i), readb(i + 1));
     }
     

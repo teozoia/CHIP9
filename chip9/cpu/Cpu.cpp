@@ -152,8 +152,8 @@ public:
     void decode(){
         /* Wrapper to specifical decode function based on opcode */
         ISTRGATE[istr.get_opcode()](&istr, gpregs, dregs);
-        //this->istr.print();
-        printf("IX(PC): 0x%04x\n",getD(pc));
+        this->istr.print();
+        //printf("IX(PC): 0x%04x\n",getD(pc));
     }
     
     void execute(){

@@ -9,6 +9,7 @@
 #include <iostream>
 #include "Reg.cpp"
 #include "DoubleReg.cpp"
+#include "Memory.cpp"
 #pragma once
 
 class Instruction{
@@ -23,6 +24,8 @@ private:
     Reg<uint8_t> *flag;
     uint8_t immediate8_0;
     uint8_t immediate8_1;
+    
+    Memory *mem;
     
 public:
     char name[10];
@@ -81,6 +84,10 @@ public:
         return this->immediate8_1;
     }
     
+    Memory *get_mem(){
+        return mem;
+    }
+    
     void set_opcode(uint8_t o){
         this->opcode = o;
     }
@@ -115,6 +122,10 @@ public:
     
     void set_imm8_1(uint8_t i){
         this->immediate8_1 = i;
+    }
+    
+    void set_mem(Memory *m){
+        this->mem = m;
     }
     
     void print(){

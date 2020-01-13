@@ -16,7 +16,7 @@
 static const int N_REGS = 12;
 static const int N_DREGS = 5;
 
-static const uint8_t GPR_DEFAULT = 0x55;
+static const uint8_t GPR_DEFAULT = 0xAA;
 static const uint8_t FLAG_DEFAULT = 0x00;
 static const uint8_t I_DEFAULT = 0x00; // I (P)
 static const uint8_t X_DEFAULT = 0x00; // X (C)
@@ -74,17 +74,13 @@ public:
         sp = &dregs[3];
         flag = &gpregs[0];
         
-        istr.set_flag(flag);
-        
         memory = Memory();
         
-        init_d(ISTRGATE);
+        istr.set_flag(flag);
+        istr.set_mem(&memory);
         
-        std::fill_n(EXECGATE, 0x100, &hcf);
-        EXECGATE[0x22] = ldxsp;         // LDX SP
-        EXECGATE[0x76] = xor_;          // XOR A
-        EXECGATE[0x0F] = jmp;           // JMP
-        EXECGATE[0x6C] = hcf;           // HCF (HALT Intel)
+        init_d(ISTRGATE);
+        init_e(EXECGATE);
         
     }
     
@@ -156,7 +152,8 @@ public:
     void decode(){
         /* Wrapper to specifical decode function based on opcode */
         ISTRGATE[istr.get_opcode()](&istr, gpregs, dregs);
-        this->istr.print();
+        //this->istr.print();
+        printf("IX(PC): 0x%04x\n",getD(pc));
     }
     
     void execute(){

@@ -150,7 +150,7 @@ static void d_pushl(Instruction *i, Reg<uint8_t> *regs, DoubleReg<uint8_t> *dreg
 static void d_pushHL(Instruction *i, Reg<uint8_t> *regs, DoubleReg<uint8_t> *dregs){
     strcpy(i->name, "PUSH");
     i->set_rr1(&dregs[2]); // HL
-    i->set_rr1(&dregs[3]); // SP
+    i->set_rr2(&dregs[3]); // SP
 }
 
 // D0 PUSH S
@@ -319,7 +319,7 @@ static void d_movb_HL(Instruction *i, Reg<uint8_t> *regs, DoubleReg<uint8_t> *dr
 static void d_movb_a(Instruction *i, Reg<uint8_t> *regs, DoubleReg<uint8_t> *dregs){
     strcpy(i->name, "MOV");
     i->set_r1(&regs[2]); // B
-    i->set_r2(&regs[0]); // A
+    i->set_r2(&regs[1]); // A
 }
 
 // ----[ MOV R1(C), R2 ]------------------------------------------------------------
@@ -754,7 +754,6 @@ static void d_clrflag(Instruction *i, Reg<uint8_t> *regs, DoubleReg<uint8_t> *dr
 // 18-28-38-48-58-68-78-88 SETFLAG Z, x
 static void d_setflag(Instruction *i, Reg<uint8_t> *regs, DoubleReg<uint8_t> *dregs){
     strcpy(i->name, "SETFLAG");
-    // Different exec(), but immediate8_0 = 0/1
 }
 
 // ----[ ADD R ]--------------------------------------------------------------------
@@ -1447,7 +1446,7 @@ static void d_nop(Instruction *i, Reg<uint8_t> *regs, DoubleReg<uint8_t> *dregs)
     strcpy(i->name, "NOP");
 }
 
-static void init_d( void (*GATE[])(Instruction *i, Reg<uint8_t> *regs, DoubleReg<uint8_t> *dregs)){
+static void init_d( void (*GATE[])(Instruction *i, Reg<uint8_t> *regs, DoubleReg<uint8_t> *dregs) ){
     
     std::fill_n(GATE, 0x100, &d_dummy);
     

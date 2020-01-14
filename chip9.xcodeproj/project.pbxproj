@@ -32,6 +32,7 @@
 
 /* Begin PBXFileReference section */
 		D728A93B23BA6B5300E841AC /* Memory.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Memory.cpp; sourceTree = "<group>"; };
+		D745D0FB23CDC604003B3707 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
 		D760F93523BF9339006B98BB /* Instruction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Instruction.cpp; sourceTree = "<group>"; };
 		D764B39823B9239A003BC78E /* chip9 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = chip9; sourceTree = BUILT_PRODUCTS_DIR; };
 		D764B39B23B9239A003BC78E /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
@@ -59,6 +60,7 @@
 			children = (
 				D764B39A23B9239A003BC78E /* chip9 */,
 				D764B39923B9239A003BC78E /* Products */,
+				D745D0FB23CDC604003B3707 /* README.md */,
 			);
 			sourceTree = "<group>";
 		};

@@ -1376,8 +1376,8 @@ static void d_clrscr(Instruction *i, Reg<uint8_t> *regs, DoubleReg<uint8_t> *dre
 static void d_draw(Instruction *i, Reg<uint8_t> *regs, DoubleReg<uint8_t> *dregs){
     strcpy(i->name, "DRAW");
     i->set_r1(&regs[1]); // A
-    // B -> X
-    // C -> y
+    i->set_imm8_0(regs[3].getValue()); // C -> X
+    i->set_imm8_1(regs[2].getValue()); // B -> Y
 }
 
 /*

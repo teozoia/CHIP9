@@ -13,6 +13,7 @@
 		D764B3A423B923D6003BC78E /* Reg.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D764B3A223B923D6003BC78E /* Reg.cpp */; };
 		D764B3A723BA0CE5003BC78E /* Cpu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D764B3A623BA0CE5003BC78E /* Cpu.cpp */; };
 		D764B3A923BA4516003BC78E /* DoubleReg.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D764B3A823BA4516003BC78E /* DoubleReg.cpp */; };
+		D774193923CCCB8F0083B567 /* Screen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D774193823CCCB8F0083B567 /* Screen.cpp */; };
 		D7B0690E23C503F8005EA547 /* exec_gate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D7B0690D23C503F8005EA547 /* exec_gate.cpp */; };
 		D7B0691023C5DE8E005EA547 /* istr_gate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D7B0690F23C5DE8E005EA547 /* istr_gate.cpp */; };
 /* End PBXBuildFile section */
@@ -37,6 +38,7 @@
 		D764B3A223B923D6003BC78E /* Reg.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Reg.cpp; sourceTree = "<group>"; };
 		D764B3A623BA0CE5003BC78E /* Cpu.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Cpu.cpp; sourceTree = "<group>"; };
 		D764B3A823BA4516003BC78E /* DoubleReg.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DoubleReg.cpp; sourceTree = "<group>"; };
+		D774193823CCCB8F0083B567 /* Screen.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Screen.cpp; sourceTree = "<group>"; };
 		D7B0690D23C503F8005EA547 /* exec_gate.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = exec_gate.cpp; sourceTree = "<group>"; };
 		D7B0690F23C5DE8E005EA547 /* istr_gate.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = istr_gate.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -81,6 +83,7 @@
 			isa = PBXGroup;
 			children = (
 				D764B3A223B923D6003BC78E /* Reg.cpp */,
+				D774193823CCCB8F0083B567 /* Screen.cpp */,
 				D764B3A823BA4516003BC78E /* DoubleReg.cpp */,
 				D764B3A623BA0CE5003BC78E /* Cpu.cpp */,
 				D728A93B23BA6B5300E841AC /* Memory.cpp */,
@@ -156,6 +159,7 @@
 				D764B3A923BA4516003BC78E /* DoubleReg.cpp in Sources */,
 				D728A93C23BA6B5300E841AC /* Memory.cpp in Sources */,
 				D7B0690E23C503F8005EA547 /* exec_gate.cpp in Sources */,
+				D774193923CCCB8F0083B567 /* Screen.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

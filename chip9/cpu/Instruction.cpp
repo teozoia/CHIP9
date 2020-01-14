@@ -10,6 +10,7 @@
 #include "Reg.cpp"
 #include "DoubleReg.cpp"
 #include "Memory.cpp"
+#include "Screen.cpp"
 #pragma once
 
 class Instruction{
@@ -26,6 +27,7 @@ private:
     uint8_t immediate8_1;
     
     Memory *mem;
+    Screen *scr;
     
 public:
     char name[10];
@@ -88,6 +90,10 @@ public:
         return mem;
     }
     
+    Screen *get_scr(){
+        return scr;
+    }
+    
     void set_opcode(uint8_t o){
         this->opcode = o;
     }
@@ -126,6 +132,10 @@ public:
     
     void set_mem(Memory *m){
         this->mem = m;
+    }
+    
+    void set_scr(Screen *s){
+        this->scr = s;
     }
     
     void print(){

@@ -385,11 +385,12 @@ static void sout(Instruction *i){
 }
 
 static void clrscr(Instruction *i){
-    printf("Ooops clearing screen\n");
+    i->get_scr()->clear();
 }
 
 static void draw(Instruction *i){
-    printf("draw call\n");
+    i->get_scr()->setSegment(i->get_r1()->getValue(), i->get_imm8_0(), i->get_imm8_1());
+    i->get_scr()->show();
 }
 
 static void jmp(Instruction *i){

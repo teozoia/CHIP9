@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "Memory.cpp"
+#include "Screen.cpp"
 #include "exec_gate.cpp"
 #include "istr_gate.cpp"
 #pragma once
@@ -31,6 +32,7 @@ private:
     DoubleReg<uint8_t> dregs[N_DREGS]; /* [ BC, DE, HL, SP, IX(PC) ] */
     Memory memory;
     Instruction istr;
+    Screen screen;
     
     DoubleReg<uint8_t> *pc; /* Alias to PC */
     DoubleReg<uint8_t> *sp; /* Alias to SP */
@@ -75,9 +77,11 @@ public:
         flag = &gpregs[0];
         
         memory = Memory();
+        screen = Screen();
         
         istr.set_flag(flag);
         istr.set_mem(&memory);
+        istr.set_scr(&screen);
         
         init_d(ISTRGATE);
         init_e(EXECGATE);
@@ -119,7 +123,7 @@ public:
         uint8_t opcode = 0x00;
         uint8_t param = 0x00;
         
-        printf("IX: 0x%04x\n", getD(pc));
+        //printf("IX: 0x%04x\n", getD(pc));
         
         this->istr.clear();
         opcode = this->memory.readb(getD(pc));

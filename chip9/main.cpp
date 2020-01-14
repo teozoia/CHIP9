@@ -8,6 +8,7 @@
 
 #include <iostream>
 #include "cpu/Cpu.cpp"
+#include "cpu/GScreen.hpp"
 
 int main(int argc, const char * argv[]) {
     // insert code here...
@@ -17,19 +18,30 @@ int main(int argc, const char * argv[]) {
     char rompath[] = "/Users/teozoia/Desktop/acp/project/chip9/rom/bootrom.patched";
     
     Cpu chip9 = Cpu();
-    chip9.status();
-    
+    GScreen gscreen = GScreen();
+
+    //chip9.status();
+    gscreen.init("CHIP9", chip9.get_scr());
+
     chip9.loadrom(rompath, 779, 0x0);
     chip9.show_memory(0,300);
-    
+
+    while(gscreen.running()){
+        gscreen.handleEvents();
+
+        chip9.cycle();
+
+        gscreen.update();
+        gscreen.render();
+    }
+     /*
     for(int i = 0; i < 10000; i++){
         chip9.fetch();
         chip9.decode();
         chip9.execute();
         chip9.status();
-        
-        //chip9.show_memory(0xffe0,0x001f);
+
     }
-    
+    */
     return 0;
 }

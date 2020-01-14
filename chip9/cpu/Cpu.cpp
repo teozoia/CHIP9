@@ -78,6 +78,12 @@ public:
         
         memory = Memory();
         screen = Screen();
+        //GScreen gscreen = GScreen();
+
+        //gscreen.init("CHIP9 - Screen 128x64", &screen);
+        //std::thread t1(&Cpu::screen_cycle, NULL);
+        //gscreen.cycle();
+        //SDL_Thread *thread = SDL_CreateThread(&GScreen::cycle, "TestThread", 0);
         
         istr.set_flag(flag);
         istr.set_mem(&memory);
@@ -91,8 +97,16 @@ public:
     void status(){
         
         printf("CPU Regs:\n");
-        printf("%s: 0x%02x (%d), %s: 0x%02x (%d), %s: 0x%02x (%d), %s: 0x%02x (%d)\n", gpregs[0].getName(), gpregs[0].getValue(), gpregs[0].getValue(), gpregs[1].getName(), gpregs[1].getValue(), gpregs[1].getValue(), gpregs[2].getName(), gpregs[2].getValue(), gpregs[2].getValue(), gpregs[3].getName(), gpregs[3].getValue(), gpregs[3].getValue());
-        printf("%s: 0x%02x (%d), %s: 0x%02x (%d), %s: 0x%02x (%d), %s: 0x%02x (%d)\n", gpregs[4].getName(), gpregs[4].getValue(), gpregs[4].getValue(), gpregs[5].getName(), gpregs[5].getValue(), gpregs[5].getValue(), gpregs[6].getName(), gpregs[6].getValue(), gpregs[6].getValue(), gpregs[7].getName(), gpregs[7].getValue(), gpregs[7].getValue());
+        printf("%s: 0x%02x (%d), %s: 0x%02x (%d), %s: 0x%02x (%d), %s: 0x%02x (%d)\n",
+                gpregs[0].getName(), gpregs[0].getValue(), gpregs[0].getValue(),
+                gpregs[1].getName(), gpregs[1].getValue(), gpregs[1].getValue(),
+                gpregs[2].getName(), gpregs[2].getValue(), gpregs[2].getValue(),
+                gpregs[3].getName(), gpregs[3].getValue(), gpregs[3].getValue());
+        printf("%s: 0x%02x (%d), %s: 0x%02x (%d), %s: 0x%02x (%d), %s: 0x%02x (%d)\n",
+                gpregs[4].getName(), gpregs[4].getValue(), gpregs[4].getValue(),
+                gpregs[5].getName(), gpregs[5].getValue(), gpregs[5].getValue(),
+                gpregs[6].getName(), gpregs[6].getValue(), gpregs[6].getValue(),
+                gpregs[7].getName(), gpregs[7].getValue(), gpregs[7].getValue());
         
         dregs[0].print();
         printf(", ");
@@ -163,6 +177,17 @@ public:
     void execute(){
         /* Wrapper to real instruction (jump table) */
         EXECGATE[istr.get_opcode()](&istr);
+    }
+
+    void cycle(){
+        fetch();
+        decode();
+        execute();
+        //status();
+    }
+
+    Screen *get_scr(){
+        return &screen;
     }
     
 };

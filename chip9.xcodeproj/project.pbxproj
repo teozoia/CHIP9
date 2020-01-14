@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		D728A93C23BA6B5300E841AC /* Memory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D728A93B23BA6B5300E841AC /* Memory.cpp */; };
+		D745D10323CDCE2A003B3707 /* GScreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D745D10123CDCE2A003B3707 /* GScreen.cpp */; };
 		D760F93623BF9339006B98BB /* Instruction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D760F93523BF9339006B98BB /* Instruction.cpp */; };
 		D764B39C23B9239A003BC78E /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D764B39B23B9239A003BC78E /* main.cpp */; };
 		D764B3A423B923D6003BC78E /* Reg.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D764B3A223B923D6003BC78E /* Reg.cpp */; };
@@ -16,6 +17,7 @@
 		D774193923CCCB8F0083B567 /* Screen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D774193823CCCB8F0083B567 /* Screen.cpp */; };
 		D7B0690E23C503F8005EA547 /* exec_gate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D7B0690D23C503F8005EA547 /* exec_gate.cpp */; };
 		D7B0691023C5DE8E005EA547 /* istr_gate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D7B0690F23C5DE8E005EA547 /* istr_gate.cpp */; };
+		D7E5258723CDFB0000156255 /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7E5258623CDFB0000156255 /* SDL2.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -28,11 +30,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 		};
+		D7D904FF23CDE299003D831A /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		D728A93B23BA6B5300E841AC /* Memory.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Memory.cpp; sourceTree = "<group>"; };
 		D745D0FB23CDC604003B3707 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
+		D745D10123CDCE2A003B3707 /* GScreen.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GScreen.cpp; sourceTree = "<group>"; };
+		D745D10223CDCE2A003B3707 /* GScreen.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = GScreen.hpp; sourceTree = "<group>"; };
 		D760F93523BF9339006B98BB /* Instruction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Instruction.cpp; sourceTree = "<group>"; };
 		D764B39823B9239A003BC78E /* chip9 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = chip9; sourceTree = BUILT_PRODUCTS_DIR; };
 		D764B39B23B9239A003BC78E /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
@@ -42,6 +56,7 @@
 		D774193823CCCB8F0083B567 /* Screen.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Screen.cpp; sourceTree = "<group>"; };
 		D7B0690D23C503F8005EA547 /* exec_gate.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = exec_gate.cpp; sourceTree = "<group>"; };
 		D7B0690F23C5DE8E005EA547 /* istr_gate.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = istr_gate.cpp; sourceTree = "<group>"; };
+		D7E5258623CDFB0000156255 /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2.framework; path = ../../../../../../Library/Frameworks/SDL2.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -49,6 +64,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D7E5258723CDFB0000156255 /* SDL2.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -61,6 +77,7 @@
 				D764B39A23B9239A003BC78E /* chip9 */,
 				D764B39923B9239A003BC78E /* Products */,
 				D745D0FB23CDC604003B3707 /* README.md */,
+				D7E5258523CDFB0000156255 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -87,6 +104,8 @@
 				D764B3A223B923D6003BC78E /* Reg.cpp */,
 				D774193823CCCB8F0083B567 /* Screen.cpp */,
 				D764B3A823BA4516003BC78E /* DoubleReg.cpp */,
+				D745D10123CDCE2A003B3707 /* GScreen.cpp */,
+				D745D10223CDCE2A003B3707 /* GScreen.hpp */,
 				D764B3A623BA0CE5003BC78E /* Cpu.cpp */,
 				D728A93B23BA6B5300E841AC /* Memory.cpp */,
 				D760F93523BF9339006B98BB /* Instruction.cpp */,
@@ -94,6 +113,14 @@
 				D7B0690F23C5DE8E005EA547 /* istr_gate.cpp */,
 			);
 			path = cpu;
+			sourceTree = "<group>";
+		};
+		D7E5258523CDFB0000156255 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D7E5258623CDFB0000156255 /* SDL2.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -106,6 +133,7 @@
 				D764B39423B9239A003BC78E /* Sources */,
 				D764B39523B9239A003BC78E /* Frameworks */,
 				D764B39623B9239A003BC78E /* CopyFiles */,
+				D7D904FF23CDE299003D831A /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -160,6 +188,7 @@
 				D764B39C23B9239A003BC78E /* main.cpp in Sources */,
 				D764B3A923BA4516003BC78E /* DoubleReg.cpp in Sources */,
 				D728A93C23BA6B5300E841AC /* Memory.cpp in Sources */,
+				D745D10323CDCE2A003B3707 /* GScreen.cpp in Sources */,
 				D7B0690E23C503F8005EA547 /* exec_gate.cpp in Sources */,
 				D774193923CCCB8F0083B567 /* Screen.cpp in Sources */,
 			);
@@ -282,6 +311,10 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = "";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
@@ -292,6 +325,10 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = "";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};

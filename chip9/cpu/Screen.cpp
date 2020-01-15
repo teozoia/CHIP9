@@ -52,7 +52,7 @@ public:
         int8_t sy = (int8_t)y;
         
         for(int i = 0; i < 8; i++)
-            if((val >> (8 - i)) == 1)
+            if(((val >> (8 - i)) & 0x01) == 1)
                 screen[sy][sx + i].setPixel(0xFF);
             else
                 screen[sy][sx + i].setPixel(0x00);

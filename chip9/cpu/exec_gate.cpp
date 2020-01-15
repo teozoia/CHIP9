@@ -390,7 +390,7 @@ static void clrscr(Instruction *i){
 
 static void draw(Instruction *i){
     i->get_scr()->setSegment(i->get_r1()->getValue(), i->get_imm8_0(), i->get_imm8_1());
-    i->get_scr()->show();
+    //i->get_scr()->show();
 }
 
 static void jmp(Instruction *i){

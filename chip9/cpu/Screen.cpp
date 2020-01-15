@@ -17,19 +17,33 @@
 static const int X = 128;
 static const int Y = 64;
 
+/* Pixel class has been created for optimization by setting every uint8_t pixel to size 1-bit */
+class Pixel{
+private:
+    uint8_t pixel:1;
+public:
+    Pixel(){ pixel = 0; }
+    void setPixel(uint8_t v){ pixel = v; }
+    uint8_t getPixel(){ return pixel; }
+};
+
 
 class Screen{
     
 private:
-    char screen[Y][X];
+    Pixel screen[Y][X];
     
 public:
-    Screen(){ clear(); }
+    Screen(){
+        for(int i = 0; i < Y; i++)
+            for(int j = 0; j < X; j++)
+                screen[i][j] = Pixel();
+    }
     
     void clear(){
         for(int i = 0; i < Y; i++)
             for(int j = 0; j < X; j++)
-                screen[i][j] = ' ';
+                screen[i][j].setPixel(0x00);
     }
     
     void setSegment(uint8_t val, uint8_t x, uint8_t y){
@@ -39,13 +53,16 @@ public:
         
         for(int i = 0; i < 8; i++)
             if((val >> (8 - i)) == 1)
-                screen[sy][sx + i] = '*';
+                screen[sy][sx + i].setPixel(0xFF);
             else
-                screen[sy][sx + i] = ' ';
-        
-        printf("Setting segemnt of screen\n");
+                screen[sy][sx + i].setPixel(0x00);
     }
-    
+
+    uint8_t getPixel(int y, int x){
+        return screen[y][x].getPixel();
+    }
+
+    /*
     void show(){
         for(int i = 0; i < Y; i++){
             for(int j = 0; j < X; j++)
@@ -53,4 +70,5 @@ public:
             printf("\n");
         }
     }
+     */
 };

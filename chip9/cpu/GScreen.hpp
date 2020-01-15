@@ -40,7 +40,6 @@ public:
     void render();
     void clean();
     bool running();
-    void cycle();
 };
 
 #endif /* GScreen_hpp */

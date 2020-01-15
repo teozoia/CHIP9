@@ -61,8 +61,24 @@ void GScreen::handleEvents(){
 }
 
 void GScreen::update(){
-    SDL_SetRenderDrawColor(renderer, 0, 100, 0, 255);
-    SDL_RenderFillRect(renderer, &rects[50][20]);
+
+    for(int i = 0; i < Y; i++){
+        for(int j = 0; j < X; j++) {
+
+            //std::cout << "i:" << i << " j:" << j << "\n";
+            if (screen->getPixel(i, j) == 0x01) {
+                SDL_SetRenderDrawColor(renderer, 0, 100, 0, 255);
+                //std::cout << "0x01\n";
+            } else {
+                SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+                //std::cout << "0x00\n";
+            }
+            SDL_RenderFillRect(renderer, &rects[i][j]);
+        }
+    }
+
+    //SDL_SetRenderDrawColor(renderer, 0, 100, 0, 255);
+    //SDL_RenderFillRect(renderer, &rects[50][20]);
     
 }
 
@@ -79,15 +95,6 @@ void GScreen::clean(){
     SDL_DestroyWindow(window);
     SDL_DestroyRenderer(renderer);
     SDL_Quit();
-}
-
-void GScreen::cycle() {
-
-    while(running()){
-        handleEvents();
-        update();
-        render();
-    }
 }
 
 

@@ -107,7 +107,16 @@
 
 029e ...
 
+X-MAS{CHIP9_m0re_l1ke_l0ve_4t_l1ght} :)
 
+HEY if A: 0x43
+
+>>> ADD OP: 0x74, R1: A, R2: A, RR1: (null), RR2: (null), RR3: (null), FLAG: 0x00 Imm: 0x00-00
+Negative
+CPU Regs:
+F: 0x60 (96), A: 0x86 (134), B: 0
+
+The operation is negative?????
 
 
 

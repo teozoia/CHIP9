@@ -151,5 +151,15 @@ public:
                this->immediate8_1,
                this->immediate8_0);
     }
+
+    void disass(){
+        printf("(%02x %02x%02x) %s 0x%02x-%02x\n",
+                this->opcode,
+                this->immediate8_0,
+                this->immediate8_1,
+                this->name,
+                this->immediate8_1,
+                this->immediate8_0);
+    }
 };
 

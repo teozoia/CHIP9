@@ -132,23 +132,24 @@ static void setflag_c0(Instruction *i){
 
 // Util fuction
 static void setflag_math(Instruction *i, uint16_t res){
-    
-    if(res == 0)
+
+    if((uint8_t)res == 0x00)
         setflag_z1(i);
     else
         setflag_z0(i);
-    
-    if((res >> 7) == 1)
+
+    if(((res >> 7) & 0x0001) == 1) {
         setflag_n1(i);
-    else
+    }else {
         setflag_n0(i);
-    
-    if(res > 0x0F)
+    }
+
+    if((res >> 4) != 0)
         setflag_h1(i);
     else
         setflag_h0(i);
 
-    if(res > 0x00FF)
+    if((res >> 8) != 0)
         setflag_c1(i);
     else
         setflag_c0(i);
@@ -165,28 +166,28 @@ static void addHL(Instruction *i){
     uint16_t addr = getD(i->get_rr1());
     uint16_t res = i->get_r1()->getValue() + i->get_mem()->readb(addr);
     i->get_r1()->set((uint8_t)res);
-    
+
     setflag_math(i, res);
 }
 
 static void addi(Instruction *i){
     uint16_t res = i->get_r1()->getValue() + i->get_imm8_0();
     i->get_r1()->set((uint8_t)res);
-    
+
     setflag_math(i, res);
 }
 
 static void addx(Instruction *i){
     uint16_t res = getD(i->get_rr1()) + i->get_r1()->getValue();
     setD(i->get_rr1(), res);
-    
+
     setflag_math(i, res);
 }
 
 static void sub(Instruction *i){
     uint16_t res = ((uint16_t)i->get_r2()->getValue()) - i->get_r1()->getValue();
     i->get_r2()->set((uint8_t)res);
-    
+
     setflag_math(i, res);
 }
 
@@ -194,29 +195,29 @@ static void subHL(Instruction *i){
     uint16_t addr = getD(i->get_rr1());
     uint16_t res = ((uint16_t)i->get_mem()->readb(addr)) - i->get_r1()->getValue();
     i->get_mem()->writeb(addr, res);
-    
+
     setflag_math(i, res);
 }
 
 static void subi(Instruction *i){
     uint16_t res = ((uint16_t)i->get_r1()->getValue()) - i->get_imm8_0();
     i->get_r1()->set(res);
-    
+
     setflag_math(i, res);
 }
 
 static void inc(Instruction *i){
     uint16_t res = ((uint16_t)i->get_r1()->getValue()) + 1;
     i->get_r1()->set((uint8_t)res);
-    
+
     setflag_math(i, res);
 }
 
 static void incHL(Instruction *i){
     uint16_t addr = getD(i->get_rr1());
-    uint16_t res = ((uint16_t)i->get_mem()->readb(addr)) + 1;
+    uint16_t res = ((uint16_t)i->get_mem()->readb(addr)) + 0x1;
     i->get_mem()->writeb(addr, (uint8_t)res);
-    
+
     setflag_math(i, res);
 }
 
@@ -228,7 +229,7 @@ static void inx(Instruction *i){
 static void dec(Instruction *i){
     uint16_t res = ((uint16_t)i->get_r1()->getValue()) - 1;
     i->get_r1()->set((uint8_t) res);
-    
+
     setflag_math(i, res);
 }
 
@@ -236,7 +237,7 @@ static void decHL(Instruction *i){
     uint16_t addr = getD(i->get_rr1());
     uint16_t res = ((uint16_t)i->get_mem()->readb(addr)) - 1;
     i->get_mem()->writeb(addr, (uint8_t)res);
-    
+
     setflag_math(i, res);
 }
 
@@ -245,7 +246,7 @@ static void and_(Instruction *i){
     Reg<uint8_t> *r = i->get_r2();
     uint16_t res = ((uint16_t)a->getValue()) & r->getValue();
     r->set((uint8_t)res);
-    
+
     setflag_math(i, res);
     i->get_flag()->set(i->get_flag()->getValue() & 0xC0); // Clear H and C flags
 }
@@ -255,7 +256,7 @@ static void andHL(Instruction *i){
     uint16_t addr = getD(i->get_rr1());
     uint16_t res = ((uint16_t)a->getValue()) & i->get_mem()->readb(addr);
     i->get_mem()->writeb(addr, (uint8_t)res);
-    
+
     setflag_math(i, res);
     i->get_flag()->set(i->get_flag()->getValue() & 0xC0); // Clear H and C flags
 }
@@ -264,7 +265,7 @@ static void andi(Instruction *i){
     Reg<uint8_t> *a = i->get_r1();
     uint16_t res = ((uint16_t)a->getValue()) & i->get_imm8_0();
     a->set((uint8_t)res);
-    
+
     setflag_math(i, res);
     i->get_flag()->set(i->get_flag()->getValue() & 0xC0); // Clear H and C flags
 }
@@ -274,7 +275,7 @@ static void or_(Instruction *i){
     Reg<uint8_t> *r = i->get_r2();
     uint16_t res = ((uint16_t)a->getValue()) | r->getValue();
     r->set((uint8_t)res);
-    
+
     setflag_math(i, res);
     i->get_flag()->set(i->get_flag()->getValue() & 0xC0); // Clear H and C flags
 }
@@ -284,7 +285,7 @@ static void orHL(Instruction *i){
     uint16_t addr = getD(i->get_rr1());
     uint16_t res = ((uint16_t)a->getValue()) | i->get_mem()->readb(addr);
     i->get_mem()->writeb(addr, (uint8_t)res);
-    
+
     setflag_math(i, res);
     i->get_flag()->set(i->get_flag()->getValue() & 0xC0); // Clear H and C flags
 }
@@ -293,7 +294,7 @@ static void ori(Instruction *i){
     Reg<uint8_t> *a = i->get_r1();
     uint16_t res = ((uint8_t)a->getValue()) | i->get_imm8_0();
     a->set((uint8_t)res);
-    
+
     setflag_math(i, res);
     i->get_flag()->set(i->get_flag()->getValue() & 0xC0); // Clear H and C flags
 }
@@ -303,7 +304,7 @@ static void xor_(Instruction *i){
     Reg<uint8_t> *r = i->get_r2();
     uint16_t res = ((uint8_t)a->getValue()) ^ r->getValue();
     r->set((uint8_t)res);
-    
+
     setflag_math(i, res);
     i->get_flag()->set(i->get_flag()->getValue() & 0xC0); // Clear H and C flags
 }
@@ -313,7 +314,7 @@ static void xorHL(Instruction *i){
     uint16_t addr = getD(i->get_rr1());
     uint16_t res = ((uint16_t)a->getValue()) ^ i->get_mem()->readb(addr);
     i->get_mem()->writeb(addr, (uint8_t)res);
-    
+
     setflag_math(i, res);
     i->get_flag()->set(i->get_flag()->getValue() & 0xC0); // Clear H and C flags
 }
@@ -322,7 +323,7 @@ static void xori(Instruction *i){
     Reg<uint8_t> *a = i->get_r1();
     uint16_t res = ((uint8_t)a->getValue()) ^ i->get_imm8_0();
     a->set((uint8_t)res);
-    
+
     setflag_math(i, res);
     i->get_flag()->set(i->get_flag()->getValue() & 0xC0); // Clear H and C flags
 }
@@ -407,7 +408,8 @@ static void jmpz(Instruction *i){
 static void jmpnz(Instruction *i){
     
     uint8_t mask = 0x80; // 1000 0000
-    if((i->get_flag()->getValue() & mask) == 0x00)
+    if((i->get_flag()->getValue() & mask) == 0)
+    if((i->get_flag()->getValue() & mask) == 0)
         i->get_rr1()->set(i->get_imm8_1(), i->get_imm8_0());
 }
 
@@ -451,6 +453,76 @@ static void jmpnc(Instruction *i){
     uint8_t mask = 0x10; // 0001 0000
     if((i->get_flag()->getValue() & mask) == 0)
         i->get_rr1()->set(i->get_imm8_1(), i->get_imm8_0());
+}
+
+/* NEVVVVVVV */
+static void njmp(Instruction *i){
+    int8_t sig_jmp_offset = (int8_t) i->get_imm8_0();
+    setD(i->get_rr1(), getD(i->get_rr1()) + sig_jmp_offset);
+}
+
+static void njmpz(Instruction *i){
+
+    uint8_t mask = 0x80; // 1000 0000
+    int8_t sig_jmp_offset = (int8_t) i->get_imm8_0();
+    if((i->get_flag()->getValue() & mask) != 0)
+        setD(i->get_rr1(), getD(i->get_rr1()) + sig_jmp_offset);
+}
+
+static void njmpnz(Instruction *i){
+
+    uint8_t mask = 0x80; // 1000 0000
+    int8_t sig_jmp_offset = (int8_t) i->get_imm8_0();
+    if((i->get_flag()->getValue() & mask) == 0)
+        setD(i->get_rr1(), getD(i->get_rr1()) + sig_jmp_offset);
+}
+
+static void njmpn(Instruction *i){
+
+    uint8_t mask = 0x40; // 0100 0000
+    int8_t sig_jmp_offset = (int8_t) i->get_imm8_0();
+    if((i->get_flag()->getValue() & mask) != 0)
+        setD(i->get_rr1(), getD(i->get_rr1()) + sig_jmp_offset);
+}
+
+static void njmpnn(Instruction *i){
+
+    uint8_t mask = 0x40; // 0100 0000
+    int8_t sig_jmp_offset = (int8_t) i->get_imm8_0();
+    if((i->get_flag()->getValue() & mask) == 0)
+        setD(i->get_rr1(), getD(i->get_rr1()) + sig_jmp_offset);
+}
+
+static void njmph(Instruction *i){
+
+    uint8_t mask = 0x20; // 0010 0000
+    int8_t sig_jmp_offset = (int8_t) i->get_imm8_0();
+    if((i->get_flag()->getValue() & mask) != 0)
+        setD(i->get_rr1(), getD(i->get_rr1()) + sig_jmp_offset);
+}
+
+static void njmpnh(Instruction *i){
+
+    uint8_t mask = 0x20; // 0010 0000
+    int8_t sig_jmp_offset = (int8_t) i->get_imm8_0();
+    if((i->get_flag()->getValue() & mask) == 0)
+        setD(i->get_rr1(), getD(i->get_rr1()) + sig_jmp_offset);
+}
+
+static void njmpc(Instruction *i){
+
+    uint8_t mask = 0x10; // 0001 0000
+    int8_t sig_jmp_offset = (int8_t) i->get_imm8_0();
+    if((i->get_flag()->getValue() & mask) != 0)
+        setD(i->get_rr1(), getD(i->get_rr1()) + sig_jmp_offset);
+}
+
+static void njmpnc(Instruction *i){
+
+    uint8_t mask = 0x10; // 0001 0000
+    int8_t sig_jmp_offset = (int8_t) i->get_imm8_0();
+    if((i->get_flag()->getValue() & mask) == 0)
+        setD(i->get_rr1(), getD(i->get_rr1()) + sig_jmp_offset);
 }
 
 static void call(Instruction *i){
@@ -499,8 +571,8 @@ static void init_e( void (*GATE[])(Instruction *i) ){
     GATE[0xB1] = pushr;       // B1 PUSH E
     GATE[0xC1] = pushr;       // C1 PUSH H
     GATE[0xD1] = pushr;       // D1 PUSH L
-    GATE[0xE1] = pushHL;      // E1 PUSH (HL)
-    GATE[0xF1] = pushr;       // F1 PUSH A
+    GATE[0xC0] = pushHL;      // E1 PUSH (HL)
+    GATE[0xD0] = pushr;       // F1 PUSH A
     
     GATE[0x51] = pushrr;      // 51 PUSH BC
     GATE[0x61] = pushrr;      // 61 PUSH DE
@@ -736,16 +808,16 @@ static void init_e( void (*GATE[])(Instruction *i) ){
     GATE[0x7F] = jmpc;         // 7F JMPCC yy xx
     GATE[0x8F] = jmpnc;         // 8F JMPCC yy xx
     
-    GATE[0x9F] = jmp;         // 9F NJMP xx
+    GATE[0x9F] = njmp;         // 9F NJMP xx
     
-    GATE[0xAF] = jmpz;         // AF NJMPCC xx
-    GATE[0xBF] = jmpnz;         // BF NJMPCC xx
-    GATE[0xCF] = jmpn;         // CF NJMPCC xx
-    GATE[0xDF] = jmpnn;         // DF NJMPCC xx
-    GATE[0xEF] = jmph;         // EF NJMPCC xx
-    GATE[0xFF] = jmpnh;         // FF NJMPCC xx
-    GATE[0xEE] = jmpc;         // EE NJMPCC xx
-    GATE[0xFE] = jmpnc;         // FE NJMPCC xx
+    GATE[0xAF] = njmpz;         // AF NJMPCC xx
+    GATE[0xBF] = njmpnz;         // BF NJMPCC xx
+    GATE[0xCF] = njmpn;         // CF NJMPCC xx
+    GATE[0xDF] = njmpnn;         // DF NJMPCC xx
+    GATE[0xEF] = njmph;         // EF NJMPCC xx
+    GATE[0xFF] = njmpnh;         // FF NJMPCC xx
+    GATE[0xEE] = njmpc;         // EE NJMPCC xx
+    GATE[0xFE] = njmpnc;         // FE NJMPCC xx
     
     // Func handling
     GATE[0x1E] = call;         // 1E CALL yy xx

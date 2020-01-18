@@ -22,10 +22,8 @@ void GScreen::init(const char *title, Screen *s){
 
     if(SDL_Init(SDL_INIT_EVERYTHING) == 0){
 
-        std::cout << "Subsystem initialized" << std::endl;
-
         window = SDL_CreateWindow(title, XPOS, YPOS, width, height, 0);
-        renderer = SDL_CreateRenderer(window, -1, 0);
+        renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
         if(renderer){
             SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255); // RGB-Alpha
@@ -58,28 +56,21 @@ void GScreen::handleEvents(){
         default:
             break;
     }
+
 }
 
 void GScreen::update(){
 
-    for(int i = 0; i < Y; i++){
-        for(int j = 0; j < X; j++) {
-
-            //std::cout << "i:" << i << " j:" << j << "\n";
-            if (screen->getPixel(i, j) == 0x01) {
+    SDL_RenderClear(renderer);
+    for(int i = 0; i < Y; i++) {
+        for (int j = 0; j < X; j++) {
+            if (screen->getPixel(i, j) == 0x01)
                 SDL_SetRenderDrawColor(renderer, 0, 100, 0, 255);
-                //std::cout << "0x01\n";
-            } else {
+            else
                 SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-                //std::cout << "0x00\n";
-            }
             SDL_RenderFillRect(renderer, &rects[i][j]);
         }
     }
-
-    //SDL_SetRenderDrawColor(renderer, 0, 100, 0, 255);
-    //SDL_RenderFillRect(renderer, &rects[50][20]);
-    
 }
 
 bool GScreen::running() {
@@ -87,7 +78,7 @@ bool GScreen::running() {
 }
 
 void GScreen::render(){
-    //SDL_RenderClear(renderer);
+
     SDL_RenderPresent(renderer);
 }
 

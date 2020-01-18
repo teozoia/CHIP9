@@ -32,7 +32,7 @@ class Screen{
     
 private:
     Pixel screen[Y][X];
-    
+
 public:
     Screen(){
         for(int i = 0; i < Y; i++)
@@ -52,7 +52,7 @@ public:
         int8_t sy = (int8_t)y;
         
         for(int i = 0; i < 8; i++)
-            if(((val >> (8 - i)) & 0x01) == 1)
+            if(((val >> (7 - i)) & 0x01) == 1)
                 screen[sy][sx + i].setPixel(0xFF);
             else
                 screen[sy][sx + i].setPixel(0x00);
@@ -61,14 +61,4 @@ public:
     uint8_t getPixel(int y, int x){
         return screen[y][x].getPixel();
     }
-
-    /*
-    void show(){
-        for(int i = 0; i < Y; i++){
-            for(int j = 0; j < X; j++)
-                printf("%c", screen[i][j]);
-            printf("\n");
-        }
-    }
-     */
 };

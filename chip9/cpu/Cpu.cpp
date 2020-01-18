@@ -78,12 +78,6 @@ public:
         
         memory = Memory();
         screen = Screen();
-        //GScreen gscreen = GScreen();
-
-        //gscreen.init("CHIP9 - Screen 128x64", &screen);
-        //std::thread t1(&Cpu::screen_cycle, NULL);
-        //gscreen.cycle();
-        //SDL_Thread *thread = SDL_CreateThread(&GScreen::cycle, "TestThread", 0);
         
         istr.set_flag(flag);
         istr.set_mem(&memory);
@@ -137,8 +131,6 @@ public:
         uint8_t opcode = 0x00;
         uint8_t param = 0x00;
         
-        //printf("IX: 0x%04x\n", getD(pc));
-        
         this->istr.clear();
         opcode = this->memory.readb(getD(pc));
         this->istr.set_opcode(opcode);
@@ -171,7 +163,11 @@ public:
     void decode(){
         /* Wrapper to specifical decode function based on opcode */
         ISTRGATE[istr.get_opcode()](&istr, gpregs, dregs);
-        this->istr.print();
+        istr.set_flag(flag); // Load flag pointer
+        istr.set_mem(&memory); // Load memory pointer
+        istr.set_scr(&screen); // Load screen pointer
+
+        //this->istr.print();
     }
     
     void execute(){

@@ -1408,7 +1408,7 @@ static void d_jmpcc(Instruction *i, Reg<uint8_t> *regs, DoubleReg<uint8_t> *dreg
 static void d_njmp(Instruction *i, Reg<uint8_t> *regs, DoubleReg<uint8_t> *dregs){
     strcpy(i->name, "NJMP");
     i->set_rr1(&dregs[4]); // PC
-    i->set_imm8_1(0);
+    //i->set_imm8_1(0);
 }
 
 // ----[ NJMPCC xx ]------------------------------------------------------------
@@ -1417,7 +1417,7 @@ static void d_njmp(Instruction *i, Reg<uint8_t> *regs, DoubleReg<uint8_t> *dregs
 static void d_njmpcc(Instruction *i, Reg<uint8_t> *regs, DoubleReg<uint8_t> *dregs){
     strcpy(i->name, "NJMPCC");
     i->set_rr1(&dregs[4]); // PC
-    i->set_imm8_1(0);
+    //i->set_imm8_1(0);
     // Different exec()
 }
 
@@ -1472,8 +1472,8 @@ static void init_d( void (*GATE[])(Instruction *i, Reg<uint8_t> *regs, DoubleReg
     GATE[0xB1] = d_pushe;       // B1 PUSH E
     GATE[0xC1] = d_pushh;       // C1 PUSH H
     GATE[0xD1] = d_pushl;       // D1 PUSH L
-    GATE[0xE1] = d_pushHL;      // E1 PUSH (HL)
-    GATE[0xF1] = d_pusha;       // F1 PUSH A
+    GATE[0xC0] = d_pushHL;      // E1 PUSH (HL)
+    GATE[0xD0] = d_pusha;       // F1 PUSH A
     
     GATE[0x51] = d_pushbc;      // 51 PUSH BC
     GATE[0x61] = d_pushde;      // 61 PUSH DE

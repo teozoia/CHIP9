@@ -3,7 +3,7 @@ _Project developped for Advanced Computer Programming exam @ Unimi_
 
 Based on X-MAS CTF 2019 chall, CHIP9, is a 8-bit CPU with 64Kb of main memory (quite similar to Intel 8080 / Zilog Z80). CHIP9-Emu is an emulator for the architecture described in the chall.
 
-![animation](/Users/teozoia/Desktop/acp/project/chip9/static/animation.gif)
+![animation](static/animation.gif)
 
 ## The challenge
 

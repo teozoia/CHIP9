@@ -7,14 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AB01AF60518DB7FE57FE9178 /* Screen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB01A5B17464EA6309AE130E /* Screen.cpp */; };
 		D728A93C23BA6B5300E841AC /* Memory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D728A93B23BA6B5300E841AC /* Memory.cpp */; };
 		D745D10323CDCE2A003B3707 /* GScreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D745D10123CDCE2A003B3707 /* GScreen.cpp */; };
 		D760F93623BF9339006B98BB /* Instruction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D760F93523BF9339006B98BB /* Instruction.cpp */; };
 		D764B39C23B9239A003BC78E /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D764B39B23B9239A003BC78E /* main.cpp */; };
-		D764B3A423B923D6003BC78E /* Reg.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D764B3A223B923D6003BC78E /* Reg.cpp */; };
+		D764B3A423B923D6003BC78E /* Reg.hpp in Sources */ = {isa = PBXBuildFile; fileRef = D764B3A223B923D6003BC78E /* Reg.hpp */; };
 		D764B3A723BA0CE5003BC78E /* Cpu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D764B3A623BA0CE5003BC78E /* Cpu.cpp */; };
-		D764B3A923BA4516003BC78E /* DoubleReg.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D764B3A823BA4516003BC78E /* DoubleReg.cpp */; };
-		D774193923CCCB8F0083B567 /* Screen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D774193823CCCB8F0083B567 /* Screen.cpp */; };
+		D764B3A923BA4516003BC78E /* DoubleReg.hpp in Sources */ = {isa = PBXBuildFile; fileRef = D764B3A823BA4516003BC78E /* DoubleReg.hpp */; };
+		D774193923CCCB8F0083B567 /* Screen.hpp in Sources */ = {isa = PBXBuildFile; fileRef = D774193823CCCB8F0083B567 /* Screen.hpp */; };
 		D7B0690E23C503F8005EA547 /* exec_gate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D7B0690D23C503F8005EA547 /* exec_gate.cpp */; };
 		D7B0691023C5DE8E005EA547 /* istr_gate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D7B0690F23C5DE8E005EA547 /* istr_gate.cpp */; };
 		D7E5258723CDFB0000156255 /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7E5258623CDFB0000156255 /* SDL2.framework */; };
@@ -43,6 +44,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		AB01A5B17464EA6309AE130E /* Screen.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Screen.cpp; sourceTree = "<group>"; };
 		D728A93B23BA6B5300E841AC /* Memory.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Memory.cpp; sourceTree = "<group>"; };
 		D745D0FB23CDC604003B3707 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
 		D745D10123CDCE2A003B3707 /* GScreen.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GScreen.cpp; sourceTree = "<group>"; };
@@ -50,10 +52,10 @@
 		D760F93523BF9339006B98BB /* Instruction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Instruction.cpp; sourceTree = "<group>"; };
 		D764B39823B9239A003BC78E /* chip9 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = chip9; sourceTree = BUILT_PRODUCTS_DIR; };
 		D764B39B23B9239A003BC78E /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
-		D764B3A223B923D6003BC78E /* Reg.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Reg.cpp; sourceTree = "<group>"; };
+		D764B3A223B923D6003BC78E /* Reg.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Reg.hpp; sourceTree = "<group>"; };
 		D764B3A623BA0CE5003BC78E /* Cpu.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Cpu.cpp; sourceTree = "<group>"; };
-		D764B3A823BA4516003BC78E /* DoubleReg.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DoubleReg.cpp; sourceTree = "<group>"; };
-		D774193823CCCB8F0083B567 /* Screen.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Screen.cpp; sourceTree = "<group>"; };
+		D764B3A823BA4516003BC78E /* DoubleReg.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = DoubleReg.hpp; sourceTree = "<group>"; };
+		D774193823CCCB8F0083B567 /* Screen.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Screen.hpp; sourceTree = "<group>"; };
 		D7B0690D23C503F8005EA547 /* exec_gate.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = exec_gate.cpp; sourceTree = "<group>"; };
 		D7B0690F23C5DE8E005EA547 /* istr_gate.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = istr_gate.cpp; sourceTree = "<group>"; };
 		D7E5258623CDFB0000156255 /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2.framework; path = ../../../../../../Library/Frameworks/SDL2.framework; sourceTree = "<group>"; };
@@ -101,9 +103,9 @@
 		D764B3A523BA0B92003BC78E /* cpu */ = {
 			isa = PBXGroup;
 			children = (
-				D764B3A223B923D6003BC78E /* Reg.cpp */,
-				D774193823CCCB8F0083B567 /* Screen.cpp */,
-				D764B3A823BA4516003BC78E /* DoubleReg.cpp */,
+				D764B3A223B923D6003BC78E /* Reg.hpp */,
+				D774193823CCCB8F0083B567 /* Screen.hpp */,
+				D764B3A823BA4516003BC78E /* DoubleReg.hpp */,
 				D745D10123CDCE2A003B3707 /* GScreen.cpp */,
 				D745D10223CDCE2A003B3707 /* GScreen.hpp */,
 				D764B3A623BA0CE5003BC78E /* Cpu.cpp */,
@@ -111,6 +113,7 @@
 				D760F93523BF9339006B98BB /* Instruction.cpp */,
 				D7B0690D23C503F8005EA547 /* exec_gate.cpp */,
 				D7B0690F23C5DE8E005EA547 /* istr_gate.cpp */,
+				AB01A5B17464EA6309AE130E /* Screen.cpp */,
 			);
 			path = cpu;
 			sourceTree = "<group>";
@@ -183,14 +186,15 @@
 			files = (
 				D7B0691023C5DE8E005EA547 /* istr_gate.cpp in Sources */,
 				D764B3A723BA0CE5003BC78E /* Cpu.cpp in Sources */,
-				D764B3A423B923D6003BC78E /* Reg.cpp in Sources */,
+				D764B3A423B923D6003BC78E /* Reg.hpp in Sources */,
 				D760F93623BF9339006B98BB /* Instruction.cpp in Sources */,
 				D764B39C23B9239A003BC78E /* main.cpp in Sources */,
-				D764B3A923BA4516003BC78E /* DoubleReg.cpp in Sources */,
+				D764B3A923BA4516003BC78E /* DoubleReg.hpp in Sources */,
 				D728A93C23BA6B5300E841AC /* Memory.cpp in Sources */,
 				D745D10323CDCE2A003B3707 /* GScreen.cpp in Sources */,
 				D7B0690E23C503F8005EA547 /* exec_gate.cpp in Sources */,
-				D774193923CCCB8F0083B567 /* Screen.cpp in Sources */,
+				D774193923CCCB8F0083B567 /* Screen.hpp in Sources */,
+				AB01AF60518DB7FE57FE9178 /* Screen.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

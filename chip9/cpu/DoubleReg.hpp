@@ -1,14 +1,8 @@
-//
-//  DoubleReg.cpp
-//  CHIP9
-//
-//  Created by Matteo Zoia on 30/12/2019.
-//  Copyright © 2019 Matteo Zoia. All rights reserved.
-//
-
 #include <stdio.h>
-#include "Reg.cpp"
-#pragma once
+#include "Reg.hpp"
+
+#ifndef CHIP9_DOUBLEREG_HPP
+#define CHIP9_DOUBLEREG_HPP
 
 template <typename Generic>
 class DoubleReg{
@@ -48,10 +42,6 @@ public:
         return this->low->getValue();
     }
     
-    /* Unfortunatelly this class can't expose a set(uint16_t val) or uint16_t get()
-     * So we define a method outside this class to do this job.
-     */
-    
     char *getName(){
         return this->name;
     }
@@ -61,6 +51,7 @@ public:
                this->high->getName(), this->low->getName(),
                this->high->getValue(), this->low->getValue());
     }
+
 };
 
 /* Extra function specific for this architecture */
@@ -71,3 +62,5 @@ static uint16_t getD(DoubleReg<uint8_t> *dr){
 static void setD(DoubleReg<uint8_t> *dr, uint16_t dval){
     dr->set((uint8_t)(dval >> 8), (uint8_t)dval);
 }
+
+#endif //CHIP9_DOUBLEREG_HPP

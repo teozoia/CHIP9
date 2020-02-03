@@ -9,7 +9,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "Memory.cpp"
-#include "Screen.cpp"
+#include "Screen.hpp"
 #include "exec_gate.cpp"
 #include "istr_gate.cpp"
 #pragma once
@@ -33,10 +33,6 @@ private:
     Memory memory;
     Instruction istr;
     Screen screen;
-    
-    DoubleReg<uint8_t> *pc; /* Alias to PC */
-    DoubleReg<uint8_t> *sp; /* Alias to SP */
-    Reg<uint8_t> *flag; /* Alias to FLAG */
     
     void (*ISTRGATE[0x100])(Instruction *i, Reg<uint8_t> *r, DoubleReg<uint8_t> *dr);
     void (*EXECGATE[0x100])(Instruction *i);
@@ -71,17 +67,8 @@ public:
         dregs[3] = DoubleReg<uint8_t>(&gpregs[8], &gpregs[9]); /* SP */
         dregs[4] = DoubleReg<uint8_t>(&gpregs[10], &gpregs[11]); /* IX(PC) */
         
-        // Set aliases
-        pc = &dregs[4];
-        sp = &dregs[3];
-        flag = &gpregs[0];
-        
         memory = Memory();
         screen = Screen();
-        
-        istr.set_flag(flag);
-        istr.set_mem(&memory);
-        istr.set_scr(&screen);
         
         init_d(ISTRGATE);
         init_e(EXECGATE);
@@ -130,11 +117,16 @@ public:
     void fetch(){
         uint8_t opcode = 0x00;
         uint8_t param = 0x00;
-        
+
         this->istr.clear();
-        opcode = this->memory.readb(getD(pc));
-        this->istr.set_opcode(opcode);
-        setD(pc, getD(pc) + 1);
+        opcode = this->memory.readb(getD(&dregs[4])); // &dregs[4] -> pc
+
+        istr.set_opcode(opcode); // Load opcode
+        istr.set_flag(&gpregs[0]); // Load flag
+        istr.set_mem(&memory); // Load memory addr
+        istr.set_scr(&screen); // Load screen addr
+
+        setD(&dregs[4], getD(&dregs[4]) + 1);
         
         switch(opcode){
             case 0x20: case 0x30: case 0x40: case 0x50:
@@ -144,7 +136,7 @@ public:
             case 0xFE:
             case 0xE7: case 0xF7: case 0xA7: case 0xB7:
             case 0xC7: case 0xD7:
-                fetch_param(&param, &this->memory, pc);
+                fetch_param(&param, &this->memory, &dregs[4]);
                 this->istr.set_imm8_0(param);
                 break;
             
@@ -152,9 +144,9 @@ public:
             case 0x0F: case 0x1F: case 0x2F: case 0x3F:
             case 0x4F: case 0x5F: case 0x6F: case 0x7F:
             case 0x8F: case 0x1E:
-                fetch_param(&param, &this->memory, pc);
+                fetch_param(&param, &this->memory, &dregs[4]);
                 this->istr.set_imm8_0(param);
-                fetch_param(&param, &this->memory, pc);
+                fetch_param(&param, &this->memory, &dregs[4]);
                 this->istr.set_imm8_1(param);
                 break;
         }
@@ -163,10 +155,6 @@ public:
     void decode(){
         /* Wrapper to specifical decode function based on opcode */
         ISTRGATE[istr.get_opcode()](&istr, gpregs, dregs);
-        istr.set_flag(flag); // Load flag pointer
-        istr.set_mem(&memory); // Load memory pointer
-        istr.set_scr(&screen); // Load screen pointer
-
         //this->istr.print();
     }
     

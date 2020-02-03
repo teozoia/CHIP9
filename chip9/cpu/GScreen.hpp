@@ -1,17 +1,9 @@
-//
-//  GScreen.hpp
-//  CHIP9
-//
-//  Created by Matteo Zoia on 14/01/2020.
-//  Copyright © 2020 Matteo Zoia. All rights reserved.
-//
+#ifndef CHIP9_GSCREEN_HPP
+#define CHIP9_GSCREEN_HPP
 
-#ifndef GScreen_hpp
-#define GScreen_hpp
-
-#include "Screen.cpp"
-#include <SDL2/SDL.h>
 #include <iostream>
+#include "Screen.hpp"
+#include <SDL2/SDL.h>
 
 static const int XPOS = SDL_WINDOWPOS_CENTERED;
 static const int YPOS = SDL_WINDOWPOS_CENTERED;
@@ -25,7 +17,6 @@ private:
     SDL_Window *window;
     SDL_Renderer *renderer;
 
-    // Mirroring of legacy screen
     SDL_Rect rects[Y][X];
     Screen *screen;
 
@@ -42,4 +33,4 @@ public:
     bool running();
 };
 
-#endif /* GScreen_hpp */
+#endif // CHIP9_GSCREEN_HPP

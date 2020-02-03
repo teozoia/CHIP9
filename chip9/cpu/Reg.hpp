@@ -1,13 +1,7 @@
-//
-//  Reg.cpp
-//  CHIP9
-//
-//  Created by Matteo Zoia on 29/12/2019.
-//  Copyright © 2019 Matteo Zoia. All rights reserved.
-//
-
 #include <iostream>
-#pragma once
+
+#ifndef CHIP9_REG_HPP
+#define CHIP9_REG_HPP
 
 template <typename Generic>
 class Reg{
@@ -39,3 +33,5 @@ public:
         printf("%s: 0x%x (%d)", this->name, this->value, this->value);
     }
 };
+
+#endif //CHIP9_REG_HPP

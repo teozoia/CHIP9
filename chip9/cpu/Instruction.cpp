@@ -7,10 +7,10 @@
 //
 
 #include <iostream>
-#include "Reg.cpp"
-#include "DoubleReg.cpp"
+#include "Reg.hpp"
+#include "DoubleReg.hpp"
 #include "Memory.cpp"
-#include "Screen.cpp"
+#include "Screen.hpp"
 #pragma once
 
 class Instruction{
@@ -21,7 +21,6 @@ private:
     Reg<uint8_t> *r2;
     DoubleReg<uint8_t> *rr1;
     DoubleReg<uint8_t> *rr2;
-    DoubleReg<uint8_t> *rr3;
     Reg<uint8_t> *flag;
     uint8_t immediate8_0;
     uint8_t immediate8_1;
@@ -41,7 +40,6 @@ public:
         this->r2 = NULL;
         this->rr1 = NULL;
         this->rr2 = NULL;
-        this->rr3 = NULL;
         this->immediate8_0 = 0;
         this->immediate8_1 = 0;
     }
@@ -68,10 +66,6 @@ public:
     
     DoubleReg<uint8_t> *get_rr2(){
         return this->rr2;
-    }
-    
-    DoubleReg<uint8_t> *get_rr3(){
-        return this->rr3;
     }
     
     Reg<uint8_t> *get_flag(){
@@ -114,10 +108,6 @@ public:
         this->rr2 = r;
     }
     
-    void set_rr3(DoubleReg<uint8_t> *r){
-        this->rr3 = r;
-    }
-    
     void set_flag(Reg<uint8_t> *r){
         this->flag = r;
     }
@@ -139,27 +129,16 @@ public:
     }
     
     void print(){
-        printf(">>> %s OP: 0x%02x, R1: %s, R2: %s, RR1: %s, RR2: %s, RR3: %s, FLAG: 0x%02x Imm: 0x%02x-%02x\n",
+        printf(">>> %s OP: 0x%02x, R1: %s, R2: %s, RR1: %s, RR2: %s, FLAG: 0x%02x Imm: 0x%02x-%02x\n",
                this->name,
                this->opcode,
                this->r1->getName(),
                this->r2->getName(),
                this->rr1->getName(),
                this->rr2->getName(),
-               this->rr3->getName(),
                this->flag->getValue(),
                this->immediate8_1,
                this->immediate8_0);
-    }
-
-    void disass(){
-        printf("(%02x %02x%02x) %s 0x%02x-%02x\n",
-                this->opcode,
-                this->immediate8_0,
-                this->immediate8_1,
-                this->name,
-                this->immediate8_1,
-                this->immediate8_0);
     }
 };
 

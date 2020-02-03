@@ -133,23 +133,23 @@ static void setflag_c0(Instruction *i){
 // Util fuction
 static void setflag_math(Instruction *i, uint16_t res){
 
-    if((uint8_t)res == 0x00)
+    if(res == 0) // res == 0
         setflag_z1(i);
     else
         setflag_z0(i);
 
-    if(((res >> 7) & 0x0001) == 1) {
+    if(((res >> 7) & 0x01FF) != 0) {
         setflag_n1(i);
     }else {
         setflag_n0(i);
     }
 
-    if((res >> 4) != 0)
+    if(((res >> 4) & 0x0FFF) != 0)
         setflag_h1(i);
     else
         setflag_h0(i);
 
-    if((res >> 8) != 0)
+    if(((res >> 8) & 0xFF) != 0)
         setflag_c1(i);
     else
         setflag_c0(i);
@@ -179,9 +179,30 @@ static void addi(Instruction *i){
 
 static void addx(Instruction *i){
     uint16_t res = getD(i->get_rr1()) + i->get_r1()->getValue();
-    setD(i->get_rr1(), res);
 
-    setflag_math(i, res);
+    if(res == 0)
+        setflag_z1(i);
+    else
+        setflag_z0(i);
+
+    if((res >> 7) == 1) {
+        setflag_n1(i);
+    }else {
+        setflag_n0(i);
+    }
+
+    if(((res >> 8) & 0x007F) != 0)
+        setflag_h1(i);
+    else
+        setflag_h0(i);
+
+    if( ((uint16_t)(res - getD(i->get_rr1()))) != i->get_r1()->getValue())
+        setflag_c1(i);
+    else
+        setflag_c0(i);
+
+
+    setD(i->get_rr1(), res);
 }
 
 static void sub(Instruction *i){
@@ -629,56 +650,56 @@ static void init_e( void (*GATE[])(Instruction *i) ){
     GATE[0xEA] = mov_HL;      // EA MOV E, (HL)
     GATE[0xFA] = mov;       // FA MOV E, A
     
-    GATE[0x0B] = mov;       // 0B MOV H, B
-    GATE[0x1B] = mov;       // 1B MOV H, C
-    GATE[0x2B] = mov;       // 2B MOV H, D
-    GATE[0x3B] = mov;       // 3B MOV H, E
-    GATE[0x4B] = mov;       // 4B MOV H, H
-    GATE[0x5B] = mov;       // 5B MOV H, L
-    GATE[0x6B] = mov_HL;      // 6B MOV H, (HL)
-    GATE[0x7B] = mov;       // 7B MOV H, A
+    GATE[0x0B] = mov;               // 0B MOV H, B
+    GATE[0x1B] = mov;               // 1B MOV H, C
+    GATE[0x2B] = mov;               // 2B MOV H, D
+    GATE[0x3B] = mov;               // 3B MOV H, E
+    GATE[0x4B] = mov;               // 4B MOV H, H
+    GATE[0x5B] = mov;               // 5B MOV H, L
+    GATE[0x6B] = mov_HL;            // 6B MOV H, (HL)
+    GATE[0x7B] = mov;               // 7B MOV H, A
     
-    GATE[0x8B] = mov;       // 8B MOV L, B
-    GATE[0x9B] = mov;       // 9B MOV L, C
-    GATE[0xAB] = mov;       // AB MOV L, D
-    GATE[0xBB] = mov;       // BB MOV L, E
-    GATE[0xCB] = mov;       // CB MOV L, H
-    GATE[0xDB] = mov;       // DB MOV L, L
-    GATE[0xEB] = mov_HL;      // EB MOV L, (HL)
-    GATE[0xFB] = mov;       // FB MOV L, A
+    GATE[0x8B] = mov;               // 8B MOV L, B
+    GATE[0x9B] = mov;               // 9B MOV L, C
+    GATE[0xAB] = mov;               // AB MOV L, D
+    GATE[0xBB] = mov;               // BB MOV L, E
+    GATE[0xCB] = mov;               // CB MOV L, H
+    GATE[0xDB] = mov;               // DB MOV L, L
+    GATE[0xEB] = mov_HL;            // EB MOV L, (HL)
+    GATE[0xFB] = mov;               // FB MOV L, A
     
-    GATE[0x0C] = movHL_;       // 0C MOV (HL), B
-    GATE[0x1C] = movHL_;       // 1C MOV (HL), C
-    GATE[0x2C] = movHL_;       // 2C MOV (HL), D
-    GATE[0x3C] = movHL_;       // 3C MOV (HL), E
-    GATE[0x4C] = movHL_;       // 4C MOV (HL), H
-    GATE[0x5C] = movHL_;       // 5C MOV (HL), L
-    GATE[0x6C] = hcf;           // 6C HCF
-    GATE[0x7C] = movHL_;       // 7C MOV (HL), A
+    GATE[0x0C] = movHL_;            // 0C MOV (HL), B
+    GATE[0x1C] = movHL_;            // 1C MOV (HL), C
+    GATE[0x2C] = movHL_;            // 2C MOV (HL), D
+    GATE[0x3C] = movHL_;            // 3C MOV (HL), E
+    GATE[0x4C] = movHL_;            // 4C MOV (HL), H
+    GATE[0x5C] = movHL_;            // 5C MOV (HL), L
+    GATE[0x6C] = hcf;               // 6C HCF
+    GATE[0x7C] = movHL_;            // 7C MOV (HL), A
     
-    GATE[0x8C] = mov;       // 8C MOV A, B
-    GATE[0x9C] = mov;       // 9C MOV A, C
-    GATE[0xAC] = mov;       // AC MOV A, D
-    GATE[0xBC] = mov;       // BC MOV A, E
-    GATE[0xCC] = mov;       // CC MOV A, H
-    GATE[0xDC] = mov;       // DC MOV A, L
-    GATE[0xEC] = mov_HL;      // EC MOV A, (HL)
-    GATE[0xFC] = mov;       // FC MOV A, A
+    GATE[0x8C] = mov;               // 8C MOV A, B
+    GATE[0x9C] = mov;               // 9C MOV A, C
+    GATE[0xAC] = mov;               // AC MOV A, D
+    GATE[0xBC] = mov;               // BC MOV A, E
+    GATE[0xCC] = mov;               // CC MOV A, H
+    GATE[0xDC] = mov;               // DC MOV A, L
+    GATE[0xEC] = mov_HL;            // EC MOV A, (HL)
+    GATE[0xFC] = mov;               // FC MOV A, A
     
-    GATE[0xED] = movrr;       // ED MOV HL, BC
-    GATE[0xFD] = movrr;       // FD MOV HL, DE
+    GATE[0xED] = movrr;             // ED MOV HL, BC
+    GATE[0xFD] = movrr;             // FD MOV HL, DE
     
     // FLAG
-    GATE[0x08] = clrflag;       // 08 CLRFLAG
+    GATE[0x08] = clrflag;           // 08 CLRFLAG
     
-    GATE[0x18] = setflag_z1;       // 18 SETFLAG Z, 1
-    GATE[0x28] = setflag_z0;       // 28 SETFLAG Z, 0
-    GATE[0x38] = setflag_n1;       // 38 SETFLAG N, 1
-    GATE[0x48] = setflag_n0;       // 48 SETFLAG N, 0
-    GATE[0x58] = setflag_h1;       // 58 SETFLAG H, 1
-    GATE[0x68] = setflag_h0;       // 68 SETFLAG H, 0
-    GATE[0x78] = setflag_c1;       // 78 SETFLAG C, 1
-    GATE[0x88] = setflag_c0;       // 88 SETFLAG C, 0
+    GATE[0x18] = setflag_z1;        // 18 SETFLAG Z, 1
+    GATE[0x28] = setflag_z0;        // 28 SETFLAG Z, 0
+    GATE[0x38] = setflag_n1;        // 38 SETFLAG N, 1
+    GATE[0x48] = setflag_n0;        // 48 SETFLAG N, 0
+    GATE[0x58] = setflag_h1;        // 58 SETFLAG H, 1
+    GATE[0x68] = setflag_h0;        // 68 SETFLAG H, 0
+    GATE[0x78] = setflag_c1;        // 78 SETFLAG C, 1
+    GATE[0x88] = setflag_c0;        // 88 SETFLAG C, 0
     
     // ADD
     GATE[0x04] = add;       // 04 ADD B

@@ -124,7 +124,7 @@ static void setD(DoubleReg<uint8_t> *dr, uint16_t dval){
 The register are defined in the class `Cpu` and are putted inside arrays, `gpregs[]` contains the `uint8_t` (8-bit) registers and `dregs[]` contains the 16-bit registers using `DoubleReg` class as explained before.
 
 ```c++
-Reg<uint8_t> gpregs[N_REGS]; 				/* [ F, A, B, C, D, E, H, L, S, P, I, X ] */
+Reg<uint8_t> gpregs[N_REGS]; /* [ F, A, B, C, D, E, H, L, S, P, I, X ] */
 DoubleReg<uint8_t> dregs[N_DREGS]; 	/* [ BC, DE, HL, SP, IX(PC) ] */
 ...
 gpregs[0] = Reg<uint8_t>(FLAG_DEFAULT, REG_NAME[0]); /* F */
@@ -155,13 +155,13 @@ The only way to give input to the _CHIP9_ processor is trought the joystick, as 
 
 #### Implementation, little dive into SDL
 
-The output ASCII screen has been developped by redirecting all the output byte into the console, so every call to assembly `SOUT` simply print the character in `A` like this: 
+The output ASCII screen has been developped by redirecting all the output byte into the console, so every call to assembly `SOUT` simply print the character in register `A` like this: 
 
 ```c++
 static void sout(Instruction *i){ printf("%c", ...registerA...); }
 ```
 
-The real pixel screen as been implemented similar to an _MVC_ pattern, there is a class that model the real data on the screen with a matrix of 1-bit and another layer that perform the output of the model with a graphical library.
+The real pixel screen as been implemented like _ModelView_ pattern, the Screen class models the real data with a matrix of 1-bit Pixels and another layer placed takes that data and perform the output within a graphical library.
 
 ```c++
 // Pixel class has been created for optimization by setting every uint8_t pixel to size 1-bit
@@ -185,25 +185,132 @@ public:
 };
 ```
 
-This technique works well and can be directly printed in the console when executing the emulator, the next step is attaching a real grapichal screen, so here were come some problem.
+After some reserch on the web I found an easy-to-use library for grapich and multimedia in C++ called _SDL_ (Simple Directmedia Layer) available for Mac, Windows and Linux; the library has been installed through Xcode framework manager. The integration with _CHIP9_ was not easy because SDL has been implemented when all the functionality has been already consolidated. The main grapichal library cycle are:
 
-The most difficult part has come when I try to attach a real pixel screen with grapich library. After some reserch on the web I found an easy-to-use library for grapich and multimedia on C++ called _SDL_ (Simple Directmedia Layer), available for Mac, Windows and Linux. The Xcode installation was very fast thrugh framework library manager...
+```c++
+while(application.isRunning()){
+		handleEvents();
+    update();
+   	render();
+}
+```
 
-**Note:** the joystick input as not been implemented for now, this means that the instruction opcode is catched like other instruction but it only print a debug text to the console _function not implemented for now_.
+There is polling cycle that continuously execute 3 functions until the application is running: first it checks input given to the application `handleUpdate()`, secondly the application `update()` it's internal data (maybe according to the user input) and lastly it's `render()` all the data that has been changed. The real implementation it's a little bit different bacause the screen specification indicate that the refresh rate is `60Hz` this means that we want `60 ` render calls for every seconds, I fix the classical cycle by inserting the timer below. 
 
-### Instruction 
+```c++
+double t = 20000; // Time for screen refresh
+while(gscreen.running()){
+		chip9.cycle(); // Here the CHIP9 CPU do a single cycle fetch-decode-execute
+    duration = ( std::clock() - start );
+		if(duration - t > 0){ // Every delta-time the screen is update
+    		start = std::clock();
+        gscreen.handleEvents(); // Here some event-oriented programming
+        gscreen.update();
+        gscreen.render();
+    }
+}
+```
 
-Something also about the ISA.
+**Note:** the joystick input as not been implemented for now, this means that the instruction opcode is catched like other instruction but it only print a debug text to the console _function not implemented for now_. With SDL library this can be done in an easy way, because the `handleEvents()` function alreay manage input with event oriented programming. Obviously the joystick implementation is not needed to run the rom included, it's a extra feature included for future updates.
+
+### Instruction and ISA
+
+The logic function of any kind of data processing system is the ability to execute program steps; but even more, the ability to evaluate conditions and select alternative program steps on the basis of those conditions. _CHIP9_ processor has multiple instructions for branching as well as function calling through the use of `CALL` and `RET` instructions.
+
+Like every processors _CHIP9_ have it's own _Instruction Set Architecture_ that include `MOV`, `XOR`, `ADD`, `JUMP`, `CALL`, `PUSH`, `RET`, `DRAW` etc. The specification explain more deeply every instruction in the _ISA_, but in the following I want show the very begining of the bootrom (decompiled in _CHIP9_ assembly) as example.
+
+```assembly
+// Decompiled assembly bootrom
+0000 (22 fe ff) ldx 0xfffe
+0003 (76 -- --) xor A
+0004 (0f 18 00) jmp 0x0018  
+0007 (00 -- --) nop                 
+0008 (00 -- --) nop                 
+0009 (00 -- --) nop                 
+000a (51 -- --) push BC   
+000b (79 -- --) mov B, A      
+000c (8c -- --) mov A, B    
+000d (e9 -- --) mov C, (HL)    
+000e (16 -- --) xor C          
+000f (9c -- --) mov A, C    
+0010 (e1 -- --) sout
+
+// hexdump bootrom
+0000000 22 fe ff 76 0f 18 00 00 00 00 51 79 8c e9 16 9c
+0000010 e1 74 c8 2f 0c 00 52 0e 41 82 00 90 00 1e 0a 00
+...
+```
 
 #### Implementation, data driven programming with jump tables
 
-This section talks about how the data driven programming has been implemented to fetch decode and execute the operation in the chip9, coded on-my-own cause there no AWK-like lenguage to use, so i implemented it with jump table, an old-skoool method.
+As you can see from the previous section of code there are a lot of difference instructions, compiled as raw byte in the rom file; another observation is that not all instruction have the same length for example some of that needs to read parameters (next bytes). Here comes _data driven programming_, as explained in a interpreted emulator (like this) we want perform different operation based on the data just readed from the code section and that's exately _DDP_. We are in C++, call and external _AWK_ script don't seems to be a good idea, so how can we deal with this? 
+
+For implementing _DDP_ I use jump tables, an old-school technique to change behavior (direct accessing to a function) based on a choosen parameter. In this case I use the _opcode_ to selecting an element of an array of functions, and that functions will be call to execute the operation selected. The next code snipped explain in a little bit better.
+
+```c++
+// Cpu.cpp
+void execute(){
+    /* Wrapper to real instruction (jump table) */
+		EXECGATE[ istr.get_opcode() ](&istr);
+}
+
+// exec_gate.cpp
+static void add(Instruction *i){
+    uint16_t res = ((uint16_t)i->get_r2()->getValue()) + i->get_r1()->getValue();
+    i->get_r2()->set((uint8_t)res);
+    
+    setflag_math(i, res); // Set flags
+}
+
+static void jmp(Instruction *i){
+    i->get_rr1()->set(i->get_imm8_1(), i->get_imm8_0());
+}
+
+static void sout(Instruction *i){
+    printf("%c", i->get_r1()->getValue());
+}
+
+static void init_e( void (*GATE[])(Instruction *i) ){
+    
+    std::fill_n(GATE, 0x100, &hcf);
+    GATE[0x6C] = hcf;           // 6C HCF (HALT Intel)
+  	...
+		GATE[0x0F] = jmp;           // 0F JMP
+  	...
+  	GATE[0x04] = add;       		// 04 ADD B
+  	GATE[0x14] = add;       		// 14 ADD C
+  	...
+    GATE[0xE1] = sout;          // E1 SOUT
+  	...
+}
+```
+
+Functions that maps instruction receive as input a instance of `Instruction` class that is a kell-known class that contains parameeters to be used for function execution common for all instruction.
+
+```c++
+class Instruction{
+private:
+    uint8_t opcode;
+    Reg<uint8_t> *r1;
+    Reg<uint8_t> *r2;
+    DoubleReg<uint8_t> *rr1;
+    DoubleReg<uint8_t> *rr2;
+    Reg<uint8_t> *flag;
+    uint8_t immediate8_0;
+    uint8_t immediate8_1;
+    
+    Memory *mem;
+    Screen *scr;
+...
+```
+
+This _DDP_ is not directly applied to text files but is based on _opcodes_ values, the _DDP_ based on the data readed from the rom code segment in memory is the _fetch_ and the _execute_ that are quite similar to the part just explained, so I let the reader inspecting the code for more detail.
 
 ## Known issues
 
-When try to compile a template class declared in an header file and a cpp implementation of it the linker run into an error, that say:
+When try to compile a template class declared in an header file and implemented in a `.cpp` external file the linker run into an error, that say:
 
-```t
+```
 [ 66%] Linking CXX executable Chip9
 Undefined symbols for architecture x86_64:
   "Reg<unsigned char>::print()", referenced from:
@@ -214,34 +321,22 @@ ld: symbol(s) not found for architecture x86_64
 clang: error: linker command failed with exit code 1 (use -v to see invocation)
 ```
 
-I didn't find a solution my own, the only way I found to working around is place the template class in a `.cpp` file instaeand of `.hpp/.h` and it's implementation `.cpp`.
+The only way I found to working around is place the template class in a `.cpp` file instaeand of `.hpp/.h` and it's implementation `.cpp`. After some reserch about this error I found an intresting answer from [stackoverflow](https://stackoverflow.com/questions/1639797/template-issue-causes-linker-error-c) with a funny example to explain it:
 
-After some reserch about this error and the wired behavior with template and headers I found an intresting solution from stack overflow with a funny paragon to explain it:
-
-```
-The reason is templates cannot be compiled. Think of functions as cookies, and the compiler is an oven.
-
-Templates are only a cookie cutter, because they don't know what type of cookie they are. It only tells the compiler how to make the function when given a type, but in itself, it can't be used because there is no concrete type being operated on. You can't cook a cookie cutter. Only when you have the tasty cookie dough ready (i.e., given the compiler the dough [type])) can you cut the cookie and cook it.
-
-Likewise, only when you actually use the template with a certain type can the compiler generate the actual function, and compile it. It can't do this, however, if the template definition is missing. You have to move it into the header file, so the caller of the function can make the cookie.
-```
-
-[https://stackoverflow.com/questions/1639797/template-issue-causes-linker-error-c]: reference	"stackoverflow.com link"
-
-
-
-Mention to other rom like dicesquad, it don't work probably because there are not mapped joystick. Mention about other teams rom in the next challenge.
+> The reason is templates cannot be compiled. Think of functions as cookies, and the compiler is an oven.
+>
+> Templates are only a cookie cutter, because they don't know what type of cookie they are. It only tells the compiler how to make the function when given a type, but in itself, it can't be used because there is no concrete type being operated on. You can't cook a cookie cutter. Only when you have the tasty cookie dough ready (i.e., given the compiler the dough [type]) can you cut the cookie and cook it.
+>
+> Likewise, only when you actually use the template with a certain type can the compiler generate the actual function, and compile it. It can't do this, however, if the template definition is missing. You have to move it into the header file, so the caller of the function can make the cookie.
 
 ## Conlusion
 
-Ok, generic programming lets me do some interesting things but is alittle bit forced for this kind of low level project because i need directly access even to byte in memory (somethinme) so in general is a good thing, but looking at the solution outside ACP project i never use generic programming.
+Generic programming help for some interesting reason, I can write once and reuse the code for contains different datatypes, but in this kind of application (low level project) is a bit forced because sometimes I need directly access to bytes and also I need controls on datatypes for handling registers.
 
-## Impovements
+In conclusion I not only coded a strange emulator, but I also found the flag: **X-MAS{m0re_l1ke_l0ve_4t_l1ght}**.
 
-The function selected with opcodes listed in exec_gate.cpp can be remapped directelly with native code (aka asssembly), this whould be better in terms of perfomance and in terms of use of flag that the CPU already generate qhen incurr in negative number compare operation or carry. 
+### Impovements
 
-The memory is now mapped in the stack throught an array, this is a way simpler for me to handle element, but isn't the best idea cause the stack grows enormous and this can be a problem for a normal program, so is better to use heap for that kind of data may be trhought an mmap or malloc.
+The function selected and executed thrught opcodes can be remapped directelly with native code (asssembly), this whould be better in terms of perfomance.
 
-Better to write a configuration or an implementation for qemu.
-
-Saving snapshot of the VM, by saving the state and the program.
+For now memory is now mapped in the stack throught an `uint8_t array[0x10000]`, this isn't the best choice because the stack grows enormously and this can be a problem for a normal program, so is better to call `malloc()` or `mmap()`.

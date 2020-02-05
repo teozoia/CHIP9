@@ -1,23 +1,6 @@
-//
-//  istr_gate.cpp
-//  CHIP9
-//
-//  Created by Matteo Zoia on 08/01/2020.
-//  Copyright © 2020 Matteo Zoia. All rights reserved.
-//
-
 #include <stdio.h>
-#include "Instruction.cpp"
+#include "Instruction.hpp"
 #pragma once
-
-/*
- * NOTES: this cpp file is very very boring; for every instruction in the ISA it takes
- * the opcode and compose a structure for the execute function.
- * At this time is implemented with a jump table, so there are about 256 function very
- * similar each oher, the next step is take all the opcodes and push them in Z3 SAT solver
- * (from Microsfot) and try to extract a better way to divide the opcode.
- * The goal is to have less function in this jump table.
- */
 
 /* regs: [ F, A, B, C, D, E, H, L, S, P, I, X ] */
 /* dregs: [ BC, DE, HL, SP, IX(PC) ] */

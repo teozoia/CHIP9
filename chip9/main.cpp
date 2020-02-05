@@ -1,11 +1,3 @@
-//
-//  main.cpp
-//  CHIP9
-//
-//  Created by Matteo Zoia on 29/12/2019.
-//  Copyright © 2019 Matteo Zoia. All rights reserved.
-//
-
 #include <iostream>
 #include "cpu/Cpu.cpp"
 #include "cpu/GScreen.hpp"
@@ -27,7 +19,7 @@ int main(int argc, const char * argv[]) {
     chip9.loadrom(bootrompath, 779, 0x0);
     chip9.loadrom(rompath, 3072, 0x0597);
 
-    double t = 20000; // Time for screen refresh
+    double t = 15000; // Time for screen refresh
 
     while(gscreen.running()){
 

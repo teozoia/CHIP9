@@ -5,8 +5,6 @@ GScreen::GScreen(){
     height = 256;
 }
 
-GScreen::~GScreen(){}
-
 void GScreen::init(const char *title, Screen *s){
 
     // Setting model

@@ -22,10 +22,8 @@ private:
 
 public:
     GScreen();
-    ~GScreen();
     
     void init(const char *title, Screen *s);
-    
     void handleEvents();
     void update();
     void render();

@@ -1,13 +1,5 @@
-//
-//  instr_exec.cpp
-//  CHIP9
-//
-//  Created by Matteo Zoia on 07/01/2020.
-//  Copyright © 2020 Matteo Zoia. All rights reserved.
-//
-
 #include <stdio.h>
-#include "Instruction.cpp"
+#include "Instruction.hpp"
 #pragma once
 
 static void hcf(Instruction *i){
@@ -476,7 +468,6 @@ static void jmpnc(Instruction *i){
         i->get_rr1()->set(i->get_imm8_1(), i->get_imm8_0());
 }
 
-/* NEVVVVVVV */
 static void njmp(Instruction *i){
     int8_t sig_jmp_offset = (int8_t) i->get_imm8_0();
     setD(i->get_rr1(), getD(i->get_rr1()) + sig_jmp_offset);

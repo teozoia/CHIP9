@@ -1,5 +1,5 @@
 # CHIP9 Emu
-_Project developed for Advanced Computer Programming exam @ Unimi_
+_Simple implementation of 8-bit emulator CHIP9, maybe not perfect/correct at all._
 
 Based on X-MAS CTF 2019 challenge, CHIP9 is an 8-bit CPU with 64Kb of main memory (quite similar to Intel 8080 / Zilog Z80). Here I build an emulator for the architecture described in the challenge.
 
